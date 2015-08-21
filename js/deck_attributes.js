@@ -26,15 +26,6 @@ $(function(){
     return this;
   };
 
-  // Array.prototype.uniq = function() {
-  //   this.reduce(function(p, c) {
-  //     if (p.indexOf(c) < 0) p.push(c);
-  //     return p;
-  //   }, []);
-
-  //   return this;
-  // };
-
   var arrayUnique = function(a) {
       return a.reduce(function(p, c) {
           if (p.indexOf(c) < 0) p.push(c);
@@ -44,6 +35,8 @@ $(function(){
 
   $.getJSON("AllSets.json", function(json) {
       mtgjson = json;
+      $("#loading").hide();
+      $("#page").show()
   });
 
   function searchForCard(cardName){
