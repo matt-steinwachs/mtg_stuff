@@ -4,6 +4,7 @@ $(function(){
   var mtgjson_attr = {
     "All Sets": "set_name",
     "Most Recent Set": "set_name",
+    "First Set": "set_name",
     "All Rarity": "rarity",
     "Lowest Rarity": "rarity",
     "Colors": "colors",
@@ -211,9 +212,14 @@ $(function(){
             } else if (attr == "Most Recent Set") {
               var push = false;
 
-              console.log(found_card.set_releaseDate);
-
               if (attributes_to_add[attr].length == 0 || parseDate(found_card.set_releaseDate) > parseDate(attributes_to_add[attr][1])){
+                attributes_to_add[attr][0] = attr_value;
+                attributes_to_add[attr][1] = found_card.set_releaseDate;
+              }
+            } else if (attr == "First Set") {
+              var push = false;
+
+              if (attributes_to_add[attr].length == 0 || parseDate(found_card.set_releaseDate) < parseDate(attributes_to_add[attr][1])){
                 attributes_to_add[attr][0] = attr_value;
                 attributes_to_add[attr][1] = found_card.set_releaseDate;
               }
@@ -237,6 +243,8 @@ $(function(){
               attributes_to_add[attr][i] = attr_value.join(", ");
             });
           } else if (attr == "Most Recent Set") {
+            attributes_to_add[attr] = [attributes_to_add[attr][0]];  //The set name will be in the first index and the release date will be in the second. Only take the set name.
+          } else if (attr == "First Set") {
             attributes_to_add[attr] = [attributes_to_add[attr][0]];  //The set name will be in the first index and the release date will be in the second. Only take the set name.
           } else if (attr == "Quantity") {
             append_td = false;
