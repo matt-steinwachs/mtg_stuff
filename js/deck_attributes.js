@@ -103,7 +103,6 @@ $(function(){
     $.blockUI({ 
       message: '<p>click the card to close</p><img class="card_art" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+multiverseid+'&type=card" />',
       fadeIn:  0, 
-      fadeOut:  0, 
       onBlock: function(){
         $('.blockUI.blockMsg').center();
         
@@ -114,11 +113,13 @@ $(function(){
         });
         
         $(".card_art").off('click').on("click", function(){
-          $.unblockUI();
+          $.unblockUI({
+            fadeOut: 0
+          });
         })
       },
       css: {
-        width: "auto"
+        width: "auto",
       }
 
     });
