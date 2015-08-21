@@ -210,7 +210,10 @@ $(function(){
               }
             } else if (attr == "Most Recent Set") {
               var push = false;
-              if (attributes_to_add[attr].length == 0 || parseDate(found_card.set_releaseDate) < parseDate(attributes_to_add[attr][1])){
+
+              console.log(found_card.set_releaseDate);
+
+              if (attributes_to_add[attr].length == 0 || parseDate(found_card.set_releaseDate) > parseDate(attributes_to_add[attr][1])){
                 attributes_to_add[attr][0] = attr_value;
                 attributes_to_add[attr][1] = found_card.set_releaseDate;
               }
