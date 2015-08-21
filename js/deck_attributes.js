@@ -27,6 +27,13 @@ $(function(){
     return this;
   };
 
+  $.fn.center = function () {
+      this.css("position","absolute");
+      this.css("top", ( $(window).height() - this.height() ) / 2+$(window).scrollTop() + "px");
+      this.css("left", ( $(window).width() - this.width() ) / 2+$(window).scrollLeft() + "px");
+      return this;
+  }
+
   var arrayUnique = function(a) {
       return a.reduce(function(p, c) {
           if (p.indexOf(c) < 0) p.push(c);
@@ -42,7 +49,7 @@ $(function(){
 
   var search_timeout = null
   $("#single_search").on("keypress", function(event){
-    if ($(this).val().length >= 3){
+    if ($(this).val().length >= 2){
       var search_string = $(this).val();
 
       if (search_timeout != null){
@@ -95,11 +102,25 @@ $(function(){
   function getAndShowCardArt(multiverseid){
     $.blockUI({ 
       message: '<p>click the card to close</p><img class="card_art" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+multiverseid+'&type=card" />',
+      fadeIn:  0, 
+      fadeOut:  0, 
       onBlock: function(){
+        $('.blockUI.blockMsg').center();
+        
+        $(".card_art").off("load").on("load", function() {
+          $('.blockUI.blockMsg').center();
+        }).each(function() {
+          if(this.complete) $(this).load();
+        });
+        
         $(".card_art").off('click').on("click", function(){
           $.unblockUI();
         })
+      },
+      css: {
+        width: "auto"
       }
+
     });
   }
 
@@ -269,7 +290,10 @@ $(function(){
           'csvHtml5'
       ],
       fixedHeader:true,
-      colReorder:true
+      colReorder:true,
+      "language": {
+        "search": "Filter:"
+      }
     });
 
   });
