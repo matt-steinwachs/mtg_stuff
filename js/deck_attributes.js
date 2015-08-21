@@ -137,11 +137,11 @@ $(function(){
     // Split the input and throw out quantities (TCGPlayer format)
     $("#decklist").val().split("\n").clean("").forEach(function(card_string){
       card_string_split = card_string.split(" ");
-      if (!isNaN(card_string_split[0])){
+      if (!isNaN(parseInt(card_string_split[0].replace("x","")))){
         if (quantities == undefined){
           quantities = {};
         }
-        quantities[card_string_split.slice(1).join(" ")] = card_string_split.shift();
+        quantities[card_string_split.slice(1).join(" ")] = (card_string_split.shift().replace("x",""));
       }      
       cards.push(card_string_split.join(" "));        
     });
