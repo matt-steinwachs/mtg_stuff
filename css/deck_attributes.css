@@ -93,13 +93,33 @@ tr.odd{
   padding:5px;
 }
 
-#warning_message{
-  color:red;
-  margin: 0px;
+#card_not_found_warning_message{
+  display: none;
+  margin-bottom: 5px;
+  margin-top: 5px;
 }
 
-#toggle_warning_details{
+#card_not_found_warning_message p {
+  color:red;
+  margin: 0px;
+  display: inline;
+}
 
+#no_quantities_provided_warning_message{
+  display: none;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+#no_quantities_provided_warning_message p{
+  color:red;
+  margin: 0px;
+  display: inline;
+}
+
+
+#toggle_warning_details{
+  display: inline;
 }
 
 

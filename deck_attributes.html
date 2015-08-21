@@ -53,15 +53,19 @@
 
         <div class="field">
           <div id="warnings">
-            <p id="warning_message"></p>
-            <a href="#" id="toggle_warning_details">Show</a>
-            <div id="warning_details"><ul></ul></div>
+            <div id="card_not_found_warning_message">
+              <p>Some cards you entered could not be found.</p>
+              <a href="#" id="toggle_warning_details">Show</a>
+              <div id="warning_details"><ul></ul></div>
+            </div>
+            <div id="no_quantities_provided_warning_message"><p>No quantities provided</p></div>
           </div>
         </div>
 
         <div class="field">
           <h3>Choose which attributes to include:</h3>
           <select id="attributes_to_include" multiple>
+            <option  value="Quantity">Quantity</option>
             <option  value="All Sets">All Sets</option>
             <option  value="Most Recent Set">Most Recent Set</option>
             <option  value="All Rarity">All Rarity</option>

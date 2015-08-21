@@ -107,14 +107,19 @@ $(function(){
 
   $("#decklist_submit").click(function(){
     var cards = [];
+    var quantities = undefined;
     var attributes = $("#attributes_to_include").val();
+    var attributes_includes_quantity = (attributes.indexOf("Quantity") != -1);
     var cards_not_found = [];
 
     // Split the input and throw out quantities (TCGPlayer format)
     $("#decklist").val().split("\n").clean("").forEach(function(card_string){
       card_string_split = card_string.split(" ");
       if (!isNaN(card_string_split[0])){
-        card_string_split.shift();
+        if (quantities == undefined){
+          quantities = {};
+        }
+        quantities[card_string_split.slice(1).join(" ")] = card_string_split.shift();
       }      
       cards.push(card_string_split.join(" "));        
     });
@@ -128,17 +133,25 @@ $(function(){
     $('#list tfoot tr').html("");
 
     $('#list thead tr').append("<th>Name</th>"); 
+    if (quantities != undefined && attributes_includes_quantity){
+      $('#list thead tr').append("<th>Quantity</th>"); 
+    }
     attributes.forEach(function(attr){
-      $('#list thead tr').append("<th>"+attr+"</th>"); 
+      if (attr != "Quantity")
+        $('#list thead tr').append("<th>"+attr+"</th>"); 
     });
 
     $('#list tfoot tr').append("<th>Name</th>"); 
+    if (quantities != undefined && attributes_includes_quantity){
+      $('#list tfoot tr').append("<th>Quantity</th>"); 
+    }
     attributes.forEach(function(attr){
-      $('#list tfoot tr').append("<th>"+attr+"</th>"); 
+      if (attr != "Quantity")
+        $('#list tfoot tr').append("<th>"+attr+"</th>"); 
     });
 
     //Search for card info and add it to the table html
-    cards.forEach(function(card){
+    cards.forEach(function(card,index){
       var found_cards_info = searchForCard(card);
 
       if (found_cards_info.length == 0){
@@ -179,6 +192,8 @@ $(function(){
                 attributes_to_add[attr][0] = attr_value;
                 attributes_to_add[attr][1] = found_card.set_releaseDate;
               }
+            } else if (attr == "Quantity") {
+              push = false;
             }
 
             if (push) attributes_to_add[attr].push(attr_value);
@@ -187,18 +202,29 @@ $(function(){
 
         var new_row = "<tr>";
         new_row += "<td><a href='#' id='"+multiverseid+"' class='get_card_art'>"+name+"</a></td>";
+        
+        
         attributes.forEach(function(attr){
+          var append_td = true;
+
           if (attr == "Colors"){
             attributes_to_add[attr].forEach(function(attr_value,i){
               attributes_to_add[attr][i] = attr_value.join(", ");
             });
           } else if (attr == "Most Recent Set") {
             attributes_to_add[attr] = [attributes_to_add[attr][0]];  //The set name will be in the first index and the release date will be in the second. Only take the set name.
+          } else if (attr == "Quantity") {
+            append_td = false;
+            if (quantities != undefined && attributes_includes_quantity){
+              new_row += "<td>"+quantities[name]+"</td>";
+
+            }
           }
            
           attributes_to_add[attr] = arrayUnique(attributes_to_add[attr]);
 
-          new_row += "<td>"+attributes_to_add[attr].join(", ")+"</td>";
+          if (append_td)
+            new_row += "<td>"+attributes_to_add[attr].join(", ")+"</td>";
         }); 
         new_row += "</tr>";
 
@@ -210,14 +236,19 @@ $(function(){
     $("#warnings").hide();
     $("#warning_details").hide();
     $("#warning_details ul").html("");
-    $("#warning_details").slideUp();
+    $("#card_not_found_warning_message").hide();
+    $("#no_quantities_provided_warning_message").hide();
     $("#toggle_warning_details").html("Show");
     if (cards_not_found.length > 0) {
-      $("#warning_message").html("Some cards you entered could not be found.")
       cards_not_found.forEach(function(card){
         $("#warning_details ul").append("<li>"+card+"</li>");
       });
+      $("#card_not_found_warning_message").show();
+      $("#warnings").show();
+    }
 
+    if (quantities == undefined && attributes_includes_quantity){
+      $("#no_quantities_provided_warning_message").show();
       $("#warnings").show();
     }
       
