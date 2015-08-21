@@ -260,15 +260,18 @@ $(function(){
 
     $("#list_container").show();
 
-    $("#list").DataTable({
+    var table = $("#list").DataTable({
       autoWidth: true,
       paging: false,
       dom: 'Bfrtip',
       buttons: [
           'excelHtml5',
           'csvHtml5'
-      ]
+      ],
+      fixedHeader:true,
+      colReorder:true
     });
+
   });
 
   $("#toggle_warning_details").click(function(event){
