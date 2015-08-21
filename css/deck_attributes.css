@@ -1,5 +1,5 @@
 body {
-  background-image: url("../img/tmp_vintage_paper.jpg");
+  background-image: url("../img/extra_clean_paper.png");
   background-color: #cccccc;
 }
 
@@ -12,7 +12,7 @@ body {
 }
 
 tr.odd{
-  background-color: lightgoldenrodyellow !important;
+  background-color: whitesmoke !important;
 }
 
 #menu{
@@ -87,7 +87,7 @@ tr.odd{
 
 #warnings{
   display: none;
-  background-color: lightgoldenrodyellow;
+  background-color: whitesmoke;
   border: 1px solid #999;
   width:200px;
   padding:5px;
