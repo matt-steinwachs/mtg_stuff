@@ -8,6 +8,7 @@ $(function(){
     "Lowest Rarity": "rarity",
     "Colors": "colors",
     "CMC": "cmc",
+    "Mana Cost": "manaCost",
     "Power": "power",
     "Toughness": "toughness",
     "Text": "text",
@@ -36,7 +37,38 @@ $(function(){
   $.getJSON("AllSets.json", function(json) {
       mtgjson = json;
       $("#loading").hide();
-      $("#page").show()
+      $("#page").show();
+  });
+
+  var search_timeout = null
+  $("#single_search").on("keypress", function(event){
+    if ($(this).val().length >= 3){
+      var search_string = $(this).val();
+
+      if (search_timeout != null){
+        clearTimeout(search_timeout);
+      }
+      search_timeout = setTimeout(function(){
+        $.get("https://api.deckbrew.com/mtg/cards/typeahead?q="+search_string, function(data){
+          var result_div = $("#single_search_results");
+          var content = result_div.val();
+          var resizeDiv = $(".textarea_resize");
+
+          result_div.val("");
+
+          data.forEach(function(card){
+            result_div.val(result_div.val()+card.name+"\n");
+          }); 
+          
+          content = result_div.val();
+          content = content.replace(/\n/g, '<br>');
+          resizeDiv.html(content);
+
+          result_div.css('height', resizeDiv.height());
+        });
+
+      }, 500);
+    }
   });
 
   function searchForCard(cardName){
@@ -50,7 +82,6 @@ $(function(){
         }
       });
     }
-
     return found_cards;
   }
 
@@ -68,10 +99,8 @@ $(function(){
         $(".card_art").off('click').on("click", function(){
           $.unblockUI();
         })
-      },
-
+      }
     });
-
   }
 
   $("#attributes_to_include").select2();
@@ -79,6 +108,7 @@ $(function(){
   $("#decklist_submit").click(function(){
     var cards = [];
     var attributes = $("#attributes_to_include").val();
+    var cards_not_found = [];
 
     // Split the input and throw out quantities (TCGPlayer format)
     $("#decklist").val().split("\n").clean("").forEach(function(card_string){
@@ -89,24 +119,31 @@ $(function(){
       cards.push(card_string_split.join(" "));        
     });
     
-
     // Destroy the datatable object and clear the table html before recreating it.
     if ($.fn.dataTable.isDataTable('#list')){ 
       $("#list").DataTable().destroy();
     }
     $('#list tbody').html("");
     $('#list thead tr').html("");
+    $('#list tfoot tr').html("");
 
     $('#list thead tr').append("<th>Name</th>"); 
     attributes.forEach(function(attr){
       $('#list thead tr').append("<th>"+attr+"</th>"); 
     });
 
-
+    $('#list tfoot tr').append("<th>Name</th>"); 
+    attributes.forEach(function(attr){
+      $('#list tfoot tr').append("<th>"+attr+"</th>"); 
+    });
 
     //Search for card info and add it to the table html
     cards.forEach(function(card){
       var found_cards_info = searchForCard(card);
+
+      if (found_cards_info.length == 0){
+        cards_not_found.push(card);
+      }
 
       if (found_cards_info.length > 0){    
         var name = found_cards_info[0].name;
@@ -151,8 +188,6 @@ $(function(){
         var new_row = "<tr>";
         new_row += "<td><a href='#' id='"+multiverseid+"' class='get_card_art'>"+name+"</a></td>";
         attributes.forEach(function(attr){
-
-
           if (attr == "Colors"){
             attributes_to_add[attr].forEach(function(attr_value,i){
               attributes_to_add[attr][i] = attr_value.join(", ");
@@ -169,8 +204,23 @@ $(function(){
 
         $('#list tbody').append(new_row);
       } 
-
     });
+
+    //Display warnings if any
+    $("#warnings").hide();
+    $("#warning_details").hide();
+    $("#warning_details ul").html("");
+    $("#warning_details").slideUp();
+    $("#toggle_warning_details").html("Show");
+    if (cards_not_found.length > 0) {
+      $("#warning_message").html("Some cards you entered could not be found.")
+      cards_not_found.forEach(function(card){
+        $("#warning_details ul").append("<li>"+card+"</li>");
+      });
+
+      $("#warnings").show();
+    }
+      
 
     $(".get_card_art").off("click").on("click", function(){ 
       var multiverseid = $(this).attr("id");
@@ -190,4 +240,14 @@ $(function(){
     });
   });
 
+  $("#toggle_warning_details").click(function(event){
+    var details = $("#warning_details")
+    if (details.is(':visible')){
+      details.slideUp();
+      $(this).html("Show");
+    } else {
+      details.slideDown();
+      $(this).html("Hide");
+    }
+  });
 });

@@ -57,3 +57,49 @@ tr.odd{
 
 }
 
+.right_side{
+  float:right;
+}
+
+.left_side{
+  float:left;
+}
+
+#single_search_results {
+    resize: none;
+    overflow: hidden;
+}
+
+.single_search_result_sizing {
+  width: 200px;
+  padding: 5px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+}
+
+
+.textarea_resize {
+    display: none;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word; /* future version of deprecated 'word-wrap' */
+}
+
+#warnings{
+  display: none;
+  background-color: lightgoldenrodyellow;
+  border: 1px solid #999;
+  width:200px;
+  padding:5px;
+}
+
+#warning_message{
+  color:red;
+  margin: 0px;
+}
+
+#toggle_warning_details{
+
+}
+
+
