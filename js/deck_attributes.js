@@ -56,6 +56,19 @@ $(function(){
     return found_cards;
   }
 
+  function getAndShowCardArt(multiverseid){
+    $.blockUI({ 
+      message: '<img class="card_art" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+multiverseid+'&type=card" />',
+      onBlock: function(){
+        $(".card_art").off('click').on("click", function(){
+          $.unblockUI();
+        })
+      },
+
+    });
+
+  }
+
   $("#attributes_to_include").select2();
 
   $("#decklist_submit").click(function(){
@@ -84,12 +97,16 @@ $(function(){
       $('#list thead tr').append("<th>"+attr+"</th>"); 
     });
 
+
+
     //Search for card info and add it to the table html
     cards.forEach(function(card){
       var found_cards_info = searchForCard(card);
 
       if (found_cards_info.length > 0){    
         var name = found_cards_info[0].name;
+        var multiverseid = found_cards_info[0].multiverseid;
+
         var attributes_to_add = {};
         $("#attributes_to_include").val().forEach(function(attr){
           attributes_to_add[attr] = [];
@@ -112,7 +129,7 @@ $(function(){
         });
 
         var new_row = "<tr>";
-        new_row += "<td>"+name+"</td>";
+        new_row += "<td><a href='#' id='"+multiverseid+"' class='get_card_art'>"+name+"</a></td>";
         attributes.forEach(function(attr){
 
 
@@ -131,6 +148,11 @@ $(function(){
         $('#list tbody').append(new_row);
       } 
 
+    });
+
+    $(".get_card_art").off("click").on("click", function(){ 
+      var multiverseid = $(this).attr("id");
+      getAndShowCardArt(multiverseid);
     });
 
     $("#list_container").show();
