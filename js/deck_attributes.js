@@ -2,8 +2,9 @@ var mtgjson = null;
 
 $(function(){
   var mtgjson_attr = {
-    "Sets": "set_name",
-    "Rarity": "rarity",
+    "All Sets": "set_name",
+    "Most Recent Set": "set_name",
+    "All Rarity": "rarity",
     "Lowest Rarity": "rarity",
     "Colors": "colors",
     "CMC": "cmc",
@@ -51,12 +52,20 @@ $(function(){
       mtgjson[set].cards.forEach(function(c){
         if (c.name == cardName){ 
           c.set_name = mtgjson[set].name;
+          c.set_releaseDate = mtgjson[set].releaseDate;
           found_cards.push(c);
         }
       });
     }
 
     return found_cards;
+  }
+
+  function parseDate(date_string){
+    var date_parts = date_string.split("-");
+    var date = new Date();
+    date.setFullYear(date_parts[0], date_parts[1], date_parts[2]);
+    return date;
   }
 
   function getAndShowCardArt(multiverseid){
@@ -121,15 +130,28 @@ $(function(){
           attributes.forEach(function(attr){ 
             var attr_value = found_card[mtgjson_attr[attr]];
             
+            var push = true;
+
             if (attr == "Colors" && attr_value == undefined){
               attr_value = ["Colorless"];
             } else if (attr == "Power" && attr_value == undefined) {
               attr_value = "N/A";
             } else if (attr == "Toughness" && attr_value == undefined) {
               attr_value = "N/A";
+            } else if (attr == "Lowest Rarity") {
+              var push = false;
+              if (attributes_to_add[attr].length == 0 || rarity_order.indexOf(attr_value) < rarity_order.indexOf(attributes_to_add[attr][0])){
+                attributes_to_add[attr][0] = attr_value;
+              }
+            } else if (attr == "Most Recent Set") {
+              var push = false;
+              if (attributes_to_add[attr].length == 0 || parseDate(found_card.set_releaseDate) < parseDate(attributes_to_add[attr][1])){
+                attributes_to_add[attr][0] = attr_value;
+                attributes_to_add[attr][1] = found_card.set_releaseDate;
+              }
             }
 
-            attributes_to_add[attr].push(attr_value);
+            if (push) attributes_to_add[attr].push(attr_value);
           });
         });
 
@@ -142,6 +164,8 @@ $(function(){
             attributes_to_add[attr].forEach(function(attr_value,i){
               attributes_to_add[attr][i] = attr_value.join(", ");
             });
+          } else if (attr == "Most Recent Set") {
+            attributes_to_add[attr] = [attributes_to_add[attr][0]];  //The set name will be in the first index and the release date will be in the second. Only take the set name.
           }
            
           attributes_to_add[attr] = arrayUnique(attributes_to_add[attr]);
