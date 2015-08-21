@@ -4,6 +4,7 @@ $(function(){
   var mtgjson_attr = {
     "Sets": "set_name",
     "Rarity": "rarity",
+    "Lowest Rarity": "rarity",
     "Colors": "colors",
     "CMC": "cmc",
     "Power": "power",
@@ -11,6 +12,8 @@ $(function(){
     "Text": "text",
     "Type": "type"
   }
+
+  var rarity_order = ["Basic Land", "Common", "Uncommon", "Rare", "Mythic Rare", "Special"];
 
   Array.prototype.clean = function(deleteValue) {
     for (var i = 0; i < this.length; i++) {
@@ -58,7 +61,7 @@ $(function(){
 
   function getAndShowCardArt(multiverseid){
     $.blockUI({ 
-      message: '<img class="card_art" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+multiverseid+'&type=card" />',
+      message: '<p>click the card to close</p><img class="card_art" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+multiverseid+'&type=card" />',
       onBlock: function(){
         $(".card_art").off('click').on("click", function(){
           $.unblockUI();
@@ -105,7 +108,7 @@ $(function(){
 
       if (found_cards_info.length > 0){    
         var name = found_cards_info[0].name;
-        var multiverseid = found_cards_info[0].multiverseid;
+        var multiverseid = undefined;
 
         var attributes_to_add = {};
         $("#attributes_to_include").val().forEach(function(attr){
@@ -113,6 +116,8 @@ $(function(){
         });
 
         found_cards_info.forEach(function(found_card){
+          if (multiverseid == undefined) multiverseid = found_card.multiverseid;
+
           attributes.forEach(function(attr){ 
             var attr_value = found_card[mtgjson_attr[attr]];
             
