@@ -1,0 +1,85 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Magic Deck Builder</title>
+  <meta name="description" content="Magic">
+  <meta name="author" content="Matthew Steinwachs">
+
+  <link rel="stylesheet" type="text/css" href="lib/css/jquery.dataTables.css"/>
+  <link rel="stylesheet" type="text/css" href="lib/css/buttons.dataTables.css"/>
+  <!-- <link rel="stylesheet" type="text/css" href="lib/css/colReorder.dataTables.css"/>
+  <link rel="stylesheet" type="text/css" href="lib/css/fixedHeader.dataTables.css"/> -->
+  <link rel="stylesheet" type="text/css" href="lib/css/select2.css"/>
+
+  <script type="text/javascript" src="lib/js/pdfmake.min.js"></script>
+  <script type="text/javascript" src="lib/js/vfs_fonts.js"></script>  
+  <script type="text/javascript" src="lib/js/jszip.min.js"></script>
+  <script type="text/javascript" src="lib/js/jquery-2.1.4.min.js"></script>
+  <script type="text/javascript" src="lib/js/jquery.dataTables.min.js"></script> 
+  <script type="text/javascript" src="lib/js/dataTables.buttons.js"></script>
+  <script type="text/javascript" src="lib/js/buttons.html5.min.js"></script>
+  <!-- <script type="text/javascript" src="lib/js/dataTables.colReorder.min.js"></script>
+  <script type="text/javascript" src="lib/js/dataTables.fixedHeader.min.js"></script> -->
+  <script type="text/javascript" src="lib/js/select2.full.min.js"></script>
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <h1>Deck Builder</h1>
+  <div id="menu">
+    <h3>Paste Deck Here:</h3>
+    <div class="field">
+      <textarea id="decklist"></textarea>
+    </div>
+    
+    <div class="field">
+      <h3>Choose which attributes to include:</h3>
+      <select id="attributes_to_include" multiple>
+        <option  value="Sets">Sets</option>
+        <option  value="Rarity" selected>Rarity</option>
+        <option  value="Colors" selected>Colors</option>
+        <option  value="CMC">CMC</option>
+        <option  value="Power">Power</option>
+        <option  value="Toughness">Toughness</option>
+        <option  value="Text">Text</option>
+        <option  value="Type">Type</option>
+
+      </select>
+    </div>
+
+    <div id="menu_buttons">
+      <button id="decklist_submit">Build</button>
+    </div>
+  </div>
+
+  <div id="list_container">
+    <h3>Download this deck as:</h3>
+    <table id="list">
+      <thead>
+        <tr>
+          <th>Card Name</th>
+          <th>Rarity</th>
+          <th>Colors</th>
+        </tr>
+      </thead>
+
+      <tfoot>
+        <tr>
+          <th>Card Name</th>
+          <th>Rarity</th>
+          <th>Colors</th>
+        </tr>
+      </tfoot>
+
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="js/deck_attributes.js"></script>
+</body>
+</html>
