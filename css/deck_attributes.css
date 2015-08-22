@@ -168,7 +168,10 @@ body {
 }
 
 .add_card{
-  font-size: 20px;
+  background-image: url("../img/plus.png");
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: contain;
   width: 20%;
   cursor: pointer;
   color:black;
@@ -176,6 +179,13 @@ body {
   vertical-align: middle;
   margin-right: 5px;
   text-align: center;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .add_card:hover{

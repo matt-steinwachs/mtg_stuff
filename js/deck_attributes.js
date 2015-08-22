@@ -91,7 +91,7 @@ $(function(){
           data.forEach(function(card, card_index){
             var new_result = (
               "<div class='search_result "+(card_index % 2 == 1 ? "odd" : "even")+"'>"+
-                "<div class='add_card'>+</div>"+
+                "<div class='add_card'></div>"+
                 "<div class='show_card' id='"+card.editions[0].multiverse_id+"'>"+card.name+"</div>"+
               "</div>"
             );
