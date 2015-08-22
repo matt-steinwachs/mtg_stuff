@@ -128,6 +128,75 @@ $(function(){
 
   $("#attributes_to_include").select2();
 
+  $("#decklist_local_save").click(function(){
+    var message = (
+      "<div id='local_save_menu'>"+
+        "<label for=''>Save this deck as: </label>"+
+        "<input type='text' id='deck_name'></input><br>"+
+        "<button id='decklist_save_submit'>Save</button>"+
+        "<button id='decklist_save_cancel'>Cancel</button>"+
+      "<div>"
+    )
+
+    $.blockUI({
+      message: message,
+      fadeIn: 0,
+      onBlock: function(){
+        $('.blockUI.blockMsg').center();
+
+        $('#decklist_save_submit').off('click').on('click', function(){
+          var save_key = $("#deck_name").val().replace(" ","_");
+          localStorage.setItem(save_key,$("#decklist").val());
+          $.unblockUI({fadeOut:0});
+        });
+
+        $('#decklist_save_cancel').off('click').on('click', function(){
+          $.unblockUI({fadeOut:0});
+        });
+
+      }
+    });
+  });
+
+  $("#decklist_local_load").click(function(){
+    var message = (
+      "<div id='local_load_menu'>"+
+        "<label for=''>Load this deck: </label>"+
+        "<select id='deck_names'>"
+    )
+
+    for (var key in localStorage){
+      message += "<option value='"+key+"'>"+key+"</option>"
+    }
+
+    message += (
+        "</select><br>"+
+        "<button id='decklist_load_submit'>Load</button>"+
+        "<button id='decklist_load_cancel'>Cancel</button>"+
+      "<div>"
+    )
+
+    $.blockUI({
+      message: message,
+      fadeIn: 0,
+      onBlock: function(){
+        $('.blockUI.blockMsg').center();
+
+        $('#decklist_load_submit').off('click').on('click', function(){
+          var save_key = $("#deck_names").val();
+          var decklist = localStorage.getItem(save_key);
+          $("#decklist").val(decklist);
+          $.unblockUI({fadeOut:0});
+        });
+
+        $('#decklist_load_cancel').off('click').on('click', function(){
+          $.unblockUI({fadeOut:0});
+        });
+
+      }
+    })
+  });
+
   $("#decklist_submit").click(function(){
     var cards = [];
     var quantities = undefined;
