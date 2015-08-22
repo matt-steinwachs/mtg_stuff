@@ -365,7 +365,8 @@ $(function(){
 
     var table = $("#list").
       on('init.dt', function () { 
-        $(".dt-buttons").prepend("<div><p>Download Deck As: </p></div>")
+        if ($("#dt-buttons-label").length == 0)
+          $(".dt-buttons").prepend("<div id='dt-buttons-label'><p>Download Deck As: </p></div>")
       }).DataTable({
       autoWidth: true,
       paging: false,
