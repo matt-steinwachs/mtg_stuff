@@ -1,6 +1,26 @@
 var mtgjson = null;
 
 $(function(){
+
+  var getUrlParameters = function getUrlParameters() {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1).replace(/\+/g, '%20')),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i
+      params = [];
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (!isNaN(parseInt(sParameterName[0])))
+        params.push(sParameterName[1]);
+    }
+
+    return params;
+  };
+
+  var params = getUrlParameters();
+
   var mtgjson_attr = {
     "All Sets": "set_name",
     "Most Recent Set": "set_name",
@@ -46,6 +66,10 @@ $(function(){
       mtgjson = json;
       $("#loading").hide();
       $("#page").show();
+      if (params.length > 0){
+        $("#decklist").val(params.join("\n"));
+        $("#decklist_submit").click();
+      } 
   });
 
   var search_timeout = null
@@ -135,7 +159,7 @@ $(function(){
         "<input type='text' id='deck_name'></input><br>"+
         "<button id='decklist_save_submit'>Save</button>"+
         "<button id='decklist_save_cancel'>Cancel</button>"+
-      "<div>"
+      "</div>"
     )
 
     $.blockUI({
@@ -173,7 +197,7 @@ $(function(){
         "</select><br>"+
         "<button id='decklist_load_submit'>Load</button>"+
         "<button id='decklist_load_cancel'>Cancel</button>"+
-      "<div>"
+      "</div>"
     )
 
     $.blockUI({
@@ -206,7 +230,7 @@ $(function(){
     var cards_not_found = [];
 
     // Split the input and throw out quantities (TCGPlayer format)
-    $("#decklist").val().split("\n").clean("").forEach(function(card_string){
+    $("#decklist").val().split("\n").clean("").forEach(function(card_string, card_string_index){
       card_string_split = card_string.split(" ");
       if (!isNaN(parseInt(card_string_split[0].replace("x","")))){
         if (quantities == undefined){
@@ -302,7 +326,7 @@ $(function(){
         });
 
         var new_row = "<tr>";
-        new_row += "<td><a href='#' id='"+multiverseid+"' class='get_card_art'>"+name+"</a></td>";
+        new_row += "<td><a href='' id='"+multiverseid+"' class='get_card_art'>"+name+"</a></td>";
         
         
         attributes.forEach(function(attr){
@@ -356,9 +380,11 @@ $(function(){
     }
       
 
-    $(".get_card_art").off("click").on("click", function(){ 
+    $(".get_card_art").off("click").on("click", function(e){ 
       var multiverseid = $(this).attr("id");
       getAndShowCardArt(multiverseid);
+      e.preventDefault();
+
     });
 
     $("#list_container").show();
@@ -366,14 +392,51 @@ $(function(){
     var table = $("#list").
       on('init.dt', function () { 
         if ($("#dt-buttons-label").length == 0)
-          $(".dt-buttons").prepend("<div id='dt-buttons-label'><p>Download Deck As: </p></div>")
+          $(".dt-buttons").prepend("<div id='dt-buttons-label'><p>Export: </p></div>")
       }).DataTable({
       autoWidth: true,
       paging: false,
       dom: 'Bfrtip',
       buttons: [
-          'excelHtml5',
-          'csvHtml5'
+        'excelHtml5',
+        'csvHtml5',
+        { 
+          text: "Link", 
+          action: function(){
+            var url_params = [];
+            $("#decklist").val().split("\n").clean("").forEach(
+              function(card_string, card_string_index){
+                url_params.push({
+                  name: card_string_index,
+                  value: card_string
+                });
+              }
+            );
+            var url_params = $.param(url_params);
+            var message = (
+              "<div id='link_popup'>"+
+                "<textarea id='link'>"+
+                window.location.href+'?'+url_params+
+                "</textarea><br>"+
+                "<button id='link_popup_close'>Close</button>"+
+              "</div>" 
+            )
+
+            $.blockUI({
+              message: message,
+              fadeIn: 0,
+              onBlock: function(){
+                $('.blockUI.blockMsg').center();
+                $('#link').select();
+                $('#link').focus();
+
+                $('#link_popup_close').off('click').on('click', function(){
+                  $.unblockUI({fadeOut:0});
+                });
+              }
+            })
+          }
+        }
       ],
       fixedHeader:true,
       colReorder:true,
@@ -381,8 +444,6 @@ $(function(){
         "search": "Filter:"
       }
     });
-
-
 
   });
 
