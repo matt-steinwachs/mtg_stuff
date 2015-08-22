@@ -73,33 +73,49 @@ $(function(){
   });
 
   var search_timeout = null
-  $("#single_search").on("keypress", function(event){
-    if ($(this).val().length >= 2){
-      var search_string = $(this).val();
+  $("#search").on("keydown", function(event){
+    var search_string = $(this).val();
+    var result_div = $("#search_results");
+    result_div.html("");
+    $("#search_results_container").hide();
 
-      if (search_timeout != null){
-        clearTimeout(search_timeout);
-      }
+    if (search_timeout != null){
+      clearTimeout(search_timeout);
+    }
+
+    if (search_string.length >= 2){
       search_timeout = setTimeout(function(){
         $.get("https://api.deckbrew.com/mtg/cards/typeahead?q="+search_string, function(data){
-          var result_div = $("#single_search_results");
-          var content = result_div.val();
-          var resizeDiv = $(".textarea_resize");
-
-          result_div.val("");
-
-          data.forEach(function(card){
-            result_div.val(result_div.val()+card.name+"\n");
-          }); 
           
-          content = result_div.val();
-          content = content.replace(/\n/g, '<br>');
-          resizeDiv.html(content);
 
-          result_div.css('height', resizeDiv.height());
+          data.forEach(function(card, card_index){
+            var new_result = (
+              "<div class='search_result "+(card_index % 2 == 1 ? "odd" : "even")+"'>"+
+                "<div class='add_card'>+</div>"+
+                "<div class='show_card' id='"+card.editions[0].multiverse_id+"'>"+card.name+"</div>"+
+              "</div>"
+            );
+
+            result_div.append(new_result);
+          }); 
+
+          $("#search_results_container").slideDown();
+
+          $(".show_card").off("click").on("click", function(e){
+            var multiverseid = $(this).attr("id");
+            getAndShowCardArt(multiverseid);
+            e.preventDefault();
+          });
+
+          $(".add_card").off("click").on("click", function(e){
+            var decklist = $("#decklist");
+            var cur_val = decklist.val();
+            decklist.val(cur_val + (cur_val == "" ? "" : "\n") + $(this).next().html());
+            e.preventDefault();
+          });
+
         });
-
-      }, 500);
+      }, 1000);
     }
   });
 
@@ -160,7 +176,7 @@ $(function(){
         "<button id='decklist_save_submit'>Save</button>"+
         "<button id='decklist_save_cancel'>Cancel</button>"+
       "</div>"
-    )
+    );
 
     $.blockUI({
       message: message,
@@ -187,7 +203,7 @@ $(function(){
       "<div id='local_load_menu'>"+
         "<label for=''>Load this deck: </label>"+
         "<select id='deck_names'>"
-    )
+    );
 
     for (var key in localStorage){
       message += "<option value='"+key+"'>"+key+"</option>"
@@ -198,7 +214,7 @@ $(function(){
         "<button id='decklist_load_submit'>Load</button>"+
         "<button id='decklist_load_cancel'>Cancel</button>"+
       "</div>"
-    )
+    );
 
     $.blockUI({
       message: message,
@@ -384,7 +400,6 @@ $(function(){
       var multiverseid = $(this).attr("id");
       getAndShowCardArt(multiverseid);
       e.preventDefault();
-
     });
 
     $("#list_container").show();

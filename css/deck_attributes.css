@@ -12,9 +12,10 @@ body {
   margin-top:10px;
 }
 
-tr.odd{
+.odd{
   background-color: whitesmoke !important;
 }
+
 
 #menu{
   margin-bottom:20px;
@@ -39,7 +40,7 @@ tr.odd{
   color: black;
   white-space: nowrap;
   overflow: hidden;
-  font-family: "Times New Roman", Times, serif;;
+  font-family: "Times New Roman", Times, serif;
 
   background-color: #e9e9e9;
   background-image: -webkit-linear-gradient(top, white 0%, #e9e9e9 100%);
@@ -84,19 +85,6 @@ tr.odd{
 .left_side{
   float:left;
 }
-
-#single_search_results {
-    resize: none;
-    overflow: hidden;
-}
-
-.single_search_result_sizing {
-  width: 200px;
-  padding: 5px;
-  font-family: Arial, sans-serif;
-  font-size: 13px;
-}
-
 
 .textarea_resize {
     display: none;
@@ -177,5 +165,67 @@ tr.odd{
 #link{
   margin-bottom:10px;
   width: 96%;
+}
+
+.add_card{
+  font-size: 20px;
+  width: 20%;
+  cursor: pointer;
+  color:black;
+  display: table-cell;
+  vertical-align: middle;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.add_card:hover{
+  font-weight:bold;
+}
+
+.show_card{
+  width: 80%;
+  cursor: pointer;
+  color:black;
+  display: table-cell;
+  vertical-align: middle; 
+  text-align: center;
+}
+
+.show_card:hover{
+  font-weight:bold;
+}
+
+.search_result{
+  display: table;
+  width: 100%;
+}
+
+#search_results {
+  background-color: white;
+}
+
+#search {
+  width: 298px;
+  border: 1px solid black;
+  font-size:16px ;
+  font-family: "Times New Roman", Times, serif;
+}
+
+#search_results_container {
+  border: 1px solid black;
+  border-top-width: 0px;
+  display: none;
+}
+
+.field {
+  width: 300px;
+}
+
+.select2-container--default .select2-selection--multiple {
+  border-radius: 0;
+}
+
+#decklist{
+  width: 294px;
 }
 
