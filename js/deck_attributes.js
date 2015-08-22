@@ -99,7 +99,7 @@ $(function(){
             result_div.append(new_result);
           }); 
 
-          $("#search_results_container").slideDown();
+          $("#search_results_container").slideDown(50);
 
           $(".show_card").off("click").on("click", function(e){
             var multiverseid = $(this).attr("id");
