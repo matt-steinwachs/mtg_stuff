@@ -363,7 +363,10 @@ $(function(){
 
     $("#list_container").show();
 
-    var table = $("#list").DataTable({
+    var table = $("#list").
+      on('init.dt', function () { 
+        $(".dt-buttons").prepend("<div><p>Download Deck As: </p></div>")
+      }).DataTable({
       autoWidth: true,
       paging: false,
       dom: 'Bfrtip',
@@ -377,6 +380,8 @@ $(function(){
         "search": "Filter:"
       }
     });
+
+
 
   });
 

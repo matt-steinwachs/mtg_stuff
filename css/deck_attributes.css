@@ -9,6 +9,7 @@ body {
 
 #list_container{
   display:none;
+  margin-top:10px;
 }
 
 tr.odd{
@@ -71,9 +72,9 @@ tr.odd{
   box-shadow: inset 1px 1px 3px #999999;
 }
 
+
 #page{
   display:none;
-
 }
 
 .right_side{
