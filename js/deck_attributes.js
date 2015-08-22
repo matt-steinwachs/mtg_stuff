@@ -187,6 +187,8 @@ $(function(){
         $('#decklist_save_submit').off('click').on('click', function(){
           var save_key = $("#deck_name").val().replace(" ","_");
           localStorage.setItem(save_key,$("#decklist").val());
+          $("#loaded_deck_name").html(": "+save_key.replace("_"," "));
+          $("#loaded_deck_name").show();
           $.unblockUI({fadeOut:0});
         });
 
@@ -227,6 +229,8 @@ $(function(){
           var decklist = localStorage.getItem(save_key);
           $("#decklist").val(decklist);
           $("#decklist_submit").click();
+          $("#loaded_deck_name").html(": "+save_key.replace("_"," "));
+          $("#loaded_deck_name").show();
           $.unblockUI({fadeOut:0});
         });
 
@@ -276,6 +280,8 @@ $(function(){
 
   $("#decklist_clear").click(function(){
     $("#decklist").val("");
+    $("#loaded_deck_name").hide();
+    $("#loaded_deck_name").html("");
     $("#decklist_submit").click();
   });
 
@@ -285,6 +291,9 @@ $(function(){
     var attributes = $("#attributes_to_include").val();
     var attributes_includes_quantity = (attributes.indexOf("Quantity") != -1);
     var cards_not_found = [];
+
+    $("#loaded_deck_name").html("");
+    $("#loaded_deck_name").hide();
 
     // Split the input and throw out quantities (TCGPlayer format)
     $("#decklist").val().split("\n").clean("").forEach(function(card_string, card_string_index){
@@ -455,44 +464,7 @@ $(function(){
       dom: 'Bfrtip',
       buttons: [
         'excelHtml5',
-        'csvHtml5',
-        // { 
-        //   text: "Link", 
-        //   action: function(){
-        //     var url_params = [];
-        //     $("#decklist").val().split("\n").clean("").forEach(
-        //       function(card_string, card_string_index){
-        //         url_params.push({
-        //           name: card_string_index,
-        //           value: card_string
-        //         });
-        //       }
-        //     );
-        //     var url_params = $.param(url_params);
-        //     var message = (
-        //       "<div id='link_popup'>"+
-        //         "<textarea id='link'>"+
-        //         window.location.origin+window.location.pathname+'?'+url_params+
-        //         "</textarea><br>"+
-        //         "<button id='link_popup_close'>Close</button>"+
-        //       "</div>" 
-        //     )
-
-        //     $.blockUI({
-        //       message: message,
-        //       fadeIn: 0,
-        //       onBlock: function(){
-        //         $('.blockUI.blockMsg').center();
-        //         $('#link').select();
-        //         $('#link').focus();
-
-        //         $('#link_popup_close').off('click').on('click', function(){
-        //           $.unblockUI({fadeOut:0});
-        //         });
-        //       }
-        //     })
-        //   }
-        // }
+        'csvHtml5'
       ],
       fixedHeader:true,
       colReorder:true,

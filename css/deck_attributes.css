@@ -9,7 +9,13 @@ body {
 
 #list_container{
   display:none;
-  margin-top:10px;
+  margin-top: 15px;
+  box-shadow: 0px -2px 20px 1px #888888;
+  border: 1px solid black;
+}
+
+#list_wrapper {
+  padding: 5px;
 }
 
 .odd{
@@ -245,5 +251,17 @@ body {
 #decklist{
   width: 294px;
   border: 1px solid black;
+}
+
+.dataTables_wrapper .dataTables_filter {
+    margin-top: 40px;
+}
+
+#dt-buttons-label p{
+  margin-bottom: 5px;
+}
+
+#loaded_deck_name {
+  display: inline;
 }
 
