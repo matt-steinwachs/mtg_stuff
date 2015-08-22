@@ -52,6 +52,25 @@ tr.odd{
   outline: none;
 }
 
+#menu_buttons button:hover{
+  background-color: #e0e0e0;
+  background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
+  background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
+  background-image: -ms-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
+  background-image: -o-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
+  background-image: linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
+}
+
+#menu_buttons button:active{
+  background-color: #e2e2e2;
+  background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);
+  background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);
+  background-image: -ms-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);
+  background-image: -o-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);
+  background-image: linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);
+  box-shadow: inset 1px 1px 3px #999999;
+}
+
 #page{
   display:none;
 
