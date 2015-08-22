@@ -233,9 +233,17 @@ body {
 
 .select2-container--default .select2-selection--multiple {
   border-radius: 0;
+  border: 1px solid black;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    margin-left: 0.5em;
+    border-radius: 0;
+    border: 1px solid black;
 }
 
 #decklist{
   width: 294px;
+  border: 1px solid black;
 }
 

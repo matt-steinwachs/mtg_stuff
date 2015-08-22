@@ -238,6 +238,47 @@ $(function(){
     })
   });
 
+  $("#decklist_link").click(function(){
+    var url_params = [];
+    $("#decklist").val().split("\n").clean("").forEach(
+      function(card_string, card_string_index){
+        url_params.push({
+          name: card_string_index,
+          value: card_string
+        });
+      }
+    );
+    var url_params = $.param(url_params);
+    var message = (
+      "<div id='link_popup'>"+
+        "<textarea id='link'>"+
+        window.location.origin+window.location.pathname+'?'+url_params+
+        "</textarea><br>"+
+        "<button id='link_popup_close'>Close</button>"+
+      "</div>" 
+    )
+
+    $.blockUI({
+      message: message,
+      fadeIn: 0,
+      onBlock: function(){
+        $('.blockUI.blockMsg').center();
+        $('#link').select();
+        $('#link').focus();
+
+        $('#link_popup_close').off('click').on('click', function(){
+          $.unblockUI({fadeOut:0});
+        });
+      }
+    })
+  
+  });
+
+  $("#decklist_clear").click(function(){
+    $("#decklist").val("");
+    $("#decklist_submit").click();
+  });
+
   $("#decklist_submit").click(function(){
     var cards = [];
     var quantities = undefined;
@@ -415,43 +456,43 @@ $(function(){
       buttons: [
         'excelHtml5',
         'csvHtml5',
-        { 
-          text: "Link", 
-          action: function(){
-            var url_params = [];
-            $("#decklist").val().split("\n").clean("").forEach(
-              function(card_string, card_string_index){
-                url_params.push({
-                  name: card_string_index,
-                  value: card_string
-                });
-              }
-            );
-            var url_params = $.param(url_params);
-            var message = (
-              "<div id='link_popup'>"+
-                "<textarea id='link'>"+
-                window.location.origin+window.location.pathname+'?'+url_params+
-                "</textarea><br>"+
-                "<button id='link_popup_close'>Close</button>"+
-              "</div>" 
-            )
+        // { 
+        //   text: "Link", 
+        //   action: function(){
+        //     var url_params = [];
+        //     $("#decklist").val().split("\n").clean("").forEach(
+        //       function(card_string, card_string_index){
+        //         url_params.push({
+        //           name: card_string_index,
+        //           value: card_string
+        //         });
+        //       }
+        //     );
+        //     var url_params = $.param(url_params);
+        //     var message = (
+        //       "<div id='link_popup'>"+
+        //         "<textarea id='link'>"+
+        //         window.location.origin+window.location.pathname+'?'+url_params+
+        //         "</textarea><br>"+
+        //         "<button id='link_popup_close'>Close</button>"+
+        //       "</div>" 
+        //     )
 
-            $.blockUI({
-              message: message,
-              fadeIn: 0,
-              onBlock: function(){
-                $('.blockUI.blockMsg').center();
-                $('#link').select();
-                $('#link').focus();
+        //     $.blockUI({
+        //       message: message,
+        //       fadeIn: 0,
+        //       onBlock: function(){
+        //         $('.blockUI.blockMsg').center();
+        //         $('#link').select();
+        //         $('#link').focus();
 
-                $('#link_popup_close').off('click').on('click', function(){
-                  $.unblockUI({fadeOut:0});
-                });
-              }
-            })
-          }
-        }
+        //         $('#link_popup_close').off('click').on('click', function(){
+        //           $.unblockUI({fadeOut:0});
+        //         });
+        //       }
+        //     })
+        //   }
+        // }
       ],
       fixedHeader:true,
       colReorder:true,
