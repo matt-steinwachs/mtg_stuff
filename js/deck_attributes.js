@@ -186,6 +186,7 @@ $(function(){
           var save_key = $("#deck_names").val();
           var decklist = localStorage.getItem(save_key);
           $("#decklist").val(decklist);
+          $("#decklist_submit").click();
           $.unblockUI({fadeOut:0});
         });
 
