@@ -416,7 +416,7 @@ $(function(){
             var message = (
               "<div id='link_popup'>"+
                 "<textarea id='link'>"+
-                window.location.href+'?'+url_params+
+                window.location.origin+window.location.pathname+'?'+url_params+
                 "</textarea><br>"+
                 "<button id='link_popup_close'>Close</button>"+
               "</div>" 
