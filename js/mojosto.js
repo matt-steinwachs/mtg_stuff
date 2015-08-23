@@ -86,9 +86,11 @@ MoJoSto = (function(){
 
       var card_instance = 1;
       var creature_placed = false;
+      var new_element_id;
       while (!creature_placed){
-        if( mojosto.battlefield[creature.multiverseid+"-"+card_instance] == undefined ){
-          mojosto.battlefield[creature.multiverseid+"-"+card_instance] = creature.clone(creature.multiverseid+"-"+card_instance);
+        new_element_id = creature.multiverseid+"-"+card_instance;
+        if( mojosto.battlefield[new_element_id] == undefined ){
+          mojosto.battlefield[new_element_id] = creature.clone(new_element_id);
           creature_placed = true;
         } else {
           card_instance++;
@@ -98,8 +100,9 @@ MoJoSto = (function(){
       card_instance = 1;
       var equipment_placed = false;
       while (!equipment_placed){
-        if( mojosto.battlefield[equipment.multiverseid+"-"+card_instance] == undefined ){
-          mojosto.battlefield[equipment.multiverseid+"-"+card_instance] = equipment.clone(equipment.multiverseid+"-"+card_instance);;
+        new_element_id = equipment.multiverseid+"-"+card_instance;
+        if( mojosto.battlefield[new_element_id] == undefined ){
+          mojosto.battlefield[new_element_id] = equipment.clone(new_element_id);
           equipment_placed = true;
         } else {
           card_instance++;
@@ -122,10 +125,34 @@ MoJoSto = (function(){
     $(document).contextmenu({
         delegate: ".cardmenu",
         menu: [
-          {title: "Tap/Untap"},
-          {title: "Counter"},
-          {title: "Delete"}
+          {title: "Tap/Untap", action: function(event, ui){
+            var element_id = ui.target.parent().attr("id");
+            mojosto.battlefield[element_id].toggleTapped();
+          }},
+
+          {title: "Add Counter", action: function(event, ui){
+            var element_id = ui.target.parent().attr("id");
+          }},
+
+          {title: "Remove Counter", action: function(event, ui){
+            var element_id = ui.target.parent().attr("id");
+          }},
+
+          {title: "Graveyard", action: function(event, ui){            
+            var element_id = ui.target.parent().attr("id");
+          }},
+
+          {title: "Exile", action: function(event, ui){            
+            var element_id = ui.target.parent().attr("id");
+          }},
+
+          {title: "To Hand", action: function(event, ui){            
+            var element_id = ui.target.parent().attr("id");
+          }},
+
         ],
+        hide: 0,
+        show: 0,
     });
   };
 

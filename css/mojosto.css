@@ -59,7 +59,7 @@ body {
   outline: none;
 }
 
-.submenu button:hover{
+.submenu button:hover, .submenu select:hover{
   background-color: #e0e0e0;
   background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
   background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
@@ -79,11 +79,19 @@ body {
 }
 
 .ui-contextmenu{
-  background-color: whitesmoke;
+  background-color: white;
   border: 1px solid black;
   list-style-type: none;
-  padding: 5px;
+  padding: 0;
+}
 
+.ui-contextmenu li.ui-menu-item:hover{
+  background-color: whitesmoke;
+}
+
+.ui-contextmenu li.ui-menu-item{
+  padding: 5px 10px;
+  text-align: center;
 }
 
 .card{
