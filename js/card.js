@@ -16,7 +16,7 @@ Card = (function(){
       element_id = 'card-'+this.multiverseid;
     
     return (
-      '<div class="card ui-widget-content" id="'+element_id+'">'+
+      '<div class="card cardmenu ui-widget-content" id="'+element_id+'">'+
         '<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+this.multiverseid+'&type=card">'+
       '</div>'
     )

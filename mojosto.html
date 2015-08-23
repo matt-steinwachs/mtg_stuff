@@ -10,12 +10,13 @@
   
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <script src="lib/js/jquery.ui-contextmenu.js"></script>
 
   <link rel="stylesheet" href="css/mojosto.css">
 </head>
 
 <body>
-  <h1>MoJoSto</h1>
+  <h1 id="page_title">MoJoSto</h1>
   <div id="loading">Loading<img src="img/spinner.gif"/></div>
   <div id="page">
     <div id="main_menu">
@@ -29,7 +30,7 @@
         <button id="get_instants">Get Three Instants</button>
       </div>
 
-      <div id="sorcery_menu" class="submenu">
+      <div id="sorcery_menu" class="submenu submenu_last">
         <button id="get_sorceries">Get Three Sorceries</button>
       </div>
     </div>

@@ -118,6 +118,15 @@ MoJoSto = (function(){
     $("#get_sorceries").click(function(e){
 
     });
+
+    $(document).contextmenu({
+        delegate: ".cardmenu",
+        menu: [
+          {title: "Tap/Untap"},
+          {title: "Counter"},
+          {title: "Delete"}
+        ],
+    });
   };
 
   MoJoSto.prototype.initCardLookup = function(){ 
@@ -126,42 +135,43 @@ MoJoSto = (function(){
 
     for (var set in mtgjson){
       mtgjson[set].cards.forEach(function(c){
-        if (c.layout == "token"){
-          c.types = ["Creature", "Token"];
-          c.type = "token";
-          c.cmc = 0;
-        }
-
-        c.set_name = mtgjson[set].name;
-        c.set_releaseDate = mtgjson[set].releaseDate;
-
-        var lookup_group;
-
-        if (c.types.indexOf("Creature") != -1 ){
-          lookup_group = "Creature";
-        } else if (c.type == "Artifact — Equipment") {
-          lookup_group = "Equipment";
-        } else if (c.type == "Instant"){
-          lookup_group = "Instant";
-        } else if (c.type == "Sorcery"){
-          lookup_group = "Sorcery";
-        }
-        
-
-        if (lookup_group == "Creature" || lookup_group == "Equipment"){
-          var card_cmc_group = card_lookup[lookup_group][c.cmc];
-          if(card_cmc_group == undefined){
-            card_lookup[lookup_group][c.cmc] = {};
-            card_cmc_group = card_lookup[lookup_group][c.cmc];
-          } 
-          if(card_cmc_group[c.name] == undefined){
-            card_cmc_group[c.name] = new Card(c);
+        if (c.multiverseid != undefined){
+          if (c.layout == "token"){
+            c.types = ["Creature", "Token"];
+            c.type = "token";
+            c.cmc = 0;
           }
 
-        } else if (lookup_group == "Sorcery" || lookup_group == "Instant"){
-          card_lookup[lookup_group].push(new Card(c));
-        }
-           
+          c.set_name = mtgjson[set].name;
+          c.set_releaseDate = mtgjson[set].releaseDate;
+
+          var lookup_group;
+
+          if (c.types.indexOf("Creature") != -1 ){
+            lookup_group = "Creature";
+          } else if (c.type == "Artifact — Equipment") {
+            lookup_group = "Equipment";
+          } else if (c.type == "Instant"){
+            lookup_group = "Instant";
+          } else if (c.type == "Sorcery"){
+            lookup_group = "Sorcery";
+          }
+          
+
+          if (lookup_group == "Creature" || lookup_group == "Equipment"){
+            var card_cmc_group = card_lookup[lookup_group][c.cmc];
+            if(card_cmc_group == undefined){
+              card_lookup[lookup_group][c.cmc] = {};
+              card_cmc_group = card_lookup[lookup_group][c.cmc];
+            } 
+            if(card_cmc_group[c.name] == undefined){
+              card_cmc_group[c.name] = new Card(c);
+            }
+
+          } else if (lookup_group == "Sorcery" || lookup_group == "Instant"){
+            card_lookup[lookup_group].push(new Card(c));
+          }
+        }  
       });    
     }
 
