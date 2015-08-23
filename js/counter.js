@@ -5,7 +5,7 @@ Counter = (function(){
     this.val = 1;
   }
 
-  Card.prototype.htmlString = function(){ 
+  Counter.prototype.htmlString = function(){ 
     return (
       '<div class="counter ui-widget-content"></div>'
     )
@@ -13,5 +13,5 @@ Counter = (function(){
 
   
 
-  return Card;
+  return Counter;
 })();
