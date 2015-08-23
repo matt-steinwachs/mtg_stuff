@@ -17,22 +17,33 @@ Card = (function(){
     this.$element;
   }
 
-  Card.prototype.htmlString = function(){ 
+  Card.prototype.htmlString = function(format){ 
+    var inner_elements = "";
+
+    if (format == "image"){
+      inner_elements = '<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+this.multiverseid+'&type=card">';
+    } else if (format == "name"){
+      inner_elements = '<div>'+this.name+'</div>';
+    }
+
     return (
-      '<div class="card cardmenu ui-widget-content" id="'+this.element_id+'">'+
-        '<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+this.multiverseid+'&type=card">'+
-      '</div>'
+      '<div class="card card_'+format+' cardmenu ui-widget-content" id="'+this.element_id+'">'+
+        inner_elements+
+      '</div>'+
+      (format == "name" ? '<br style="clear:both;">': '')
     )
   };
 
-  Card.prototype.attach = function(selector){ 
-    $(selector).append(this.htmlString());
+  Card.prototype.attach = function(format,selector){ 
+    $(selector).append(this.htmlString(format));
+    this.attached = true;
     this.$element = $('#'+this.element_id);
     this.registerEvents();
   };
 
   Card.prototype.unattach = function(){ 
     this.$element.remove();
+    this.attached = false;
   };
 
   Card.prototype.registerEvents = function(){ 

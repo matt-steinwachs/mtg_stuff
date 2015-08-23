@@ -94,10 +94,28 @@ body {
   text-align: center;
 }
 
-.card{
+.card {
+
+}
+
+.card_image{
   margin: 5px;
   display: inline-block;
 }
+
+.card_name{
+  /*border: 1px solid black;
+  padding:5px;*/
+  margin: 5px;
+  display: inline-block;
+  width: auto;
+  clear: both;
+}
+
+.card_name:hover{
+  font-weight:bold;
+}
+
 
 .counter{
   border-radius:50;
@@ -105,4 +123,18 @@ body {
   height: 20px;
   z-index: 1000;
   border: 1px solid black;
+}
+
+.other_zone {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 20px;
+}
+
+.zone_header {
+  font-size: 20px;  
+}
+
+.zone_content {
+  display: none;
 }

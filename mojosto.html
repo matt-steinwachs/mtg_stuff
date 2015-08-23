@@ -12,7 +12,6 @@
   <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
   <script src="lib/js/jquery.ui-contextmenu.js"></script>
   <script src="lib/js/jquery.ui.touch-punch.js"></script>
-  jquery.ui.touch-punch.js
 
   <link rel="stylesheet" href="css/mojosto.css">
 </head>
@@ -37,12 +36,37 @@
       </div>
     </div>
 
-    <div id="battlefield"></div>
-    <div id="unequiped_equipment"></div>
-    <div id="played_instants_and_sorceries"></div>
-    <div id="graveyard"></div>
-    <div id="exile"></div>
-    <div id="life"></div>
+    <div id="battlefield">
+      <div class="zone_header">Battlefield</div>
+      <div class="zone_content"></div>
+    </div>
+      <div id="other_zones">
+        <div class="other_zone" id="unequiped_equipment">
+          <div class="zone_header">Unequipped Equipment</div>
+          <div class="zone_content"></div>
+        </div>
+        <div class="other_zone" id="played_instants_and_sorceries">
+          <div class="zone_header">Previously Played Instants and Sorceries</div>
+          <div class="zone_content"></div>
+        </div>     
+        <div class="other_zone" id="graveyard">
+          <div class="zone_header">Graveyard</div>
+          <div class="zone_content"></div>
+        </div>
+        <div class="other_zone" id="exile">
+          <div class="zone_header">Exile</div>
+          <div class="zone_content"></div>
+        </div>
+        <div class="other_zone" id="hand">
+          <div class="zone_header">Hand</div>
+          <div class="zone_content"></div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- <div id="life">
+      <div class="zone_header">Graveyard<div>
+    </div> -->
   </div>
   
   <script src="js/counter.js"></script>

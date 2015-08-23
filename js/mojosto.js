@@ -14,9 +14,12 @@ MoJoSto = (function(){
     }
 
     this.battlefield = {};
+    this.unequiped = {};
+
     this.mtgjson;
 
     this.initHelperFunctions();
+    this.initPlayFieldEvents();
 
     //Loaded and ready
     $.getJSON("AllSets.json", function(json) {
@@ -62,6 +65,13 @@ MoJoSto = (function(){
             return p;
         }, []);
     };
+  };
+
+  MoJoSto.prototype.initPlayFieldEvents = function(){ 
+    $(".zone_header").click(function(e){
+      console.log($(this).siblings());
+      $(this).siblings(".zone_content").slideToggle();
+    });
   };
 
   MoJoSto.prototype.initMenuDOM = function(){ 
@@ -138,6 +148,30 @@ MoJoSto = (function(){
             var element_id = ui.target.parent().attr("id");
           }},
 
+          {title: "Unequip", action: function(event, ui){            
+            var element_id = ui.target.parent().attr("id");
+            var equipment = mojosto.battlefield[element_id];
+            equipment.unattach();
+            
+            var card_instance = 1;   
+            var equipment_placed = false;
+
+            while (!equipment_placed){
+              new_element_id = equipment.multiverseid+"-"+card_instance;
+              if( mojosto.unequiped[new_element_id] == undefined ){
+                mojosto.unequiped[new_element_id] = equipment.clone(new_element_id);
+                equipment_placed = true;
+              } else {
+                card_instance++;
+              }
+            }
+
+            delete mojosto.battlefield[element_id];
+
+            mojosto.buildBattlefield();
+            mojosto.buildUnequiped();
+          }},
+
           {title: "Graveyard", action: function(event, ui){            
             var element_id = ui.target.parent().attr("id");
           }},
@@ -147,6 +181,18 @@ MoJoSto = (function(){
           }},
 
           {title: "To Hand", action: function(event, ui){            
+            var element_id = ui.target.parent().attr("id");
+          }},
+
+          {title: "Top of Library", action: function(event, ui){            
+            var element_id = ui.target.parent().attr("id");
+          }},
+
+          {title: "Z Level Up", action: function(event, ui){            
+            var element_id = ui.target.parent().attr("id");
+          }},
+
+          {title: "Z Level Down", action: function(event, ui){            
             var element_id = ui.target.parent().attr("id");
           }},
 
@@ -256,13 +302,27 @@ MoJoSto = (function(){
 
   MoJoSto.prototype.buildBattlefield = function(){
     $(".card").off("click");
-    $("#battlefield").html("");
+    $("#battlefield .zone_content").html("");
 
     for (var card_id in this.battlefield) {
       var card = this.battlefield[card_id];
-      card.attach("#battlefield");
+      card.attach("image", "#battlefield .zone_content");
       
     }
+
+    $("#battlefield .zone_content").show();
+  }
+
+  MoJoSto.prototype.buildUnequiped = function(){
+    $(".card").off("click");
+    $("#unequiped .zone_content").html("");
+
+    for (var card_id in this.unequiped) {
+      var card = this.unequiped[card_id];
+      card.attach("name", "#unequiped_equipment .zone_content");
+    }
+
+    $("#unequiped_equipment .zone_content").show();
   }
 
   MoJoSto.prototype.searchForCard = function(cardName){
