@@ -87,8 +87,8 @@ MoJoSto = (function(){
       var card_instance = 1;
       var creature_placed = false;
       while (!creature_placed){
-        if( mojosto.battlefield[creature.name+"-"+card_instance] == undefined ){
-          mojosto.battlefield[creature.name+"-"+card_instance] = creature;
+        if( mojosto.battlefield[creature.multiverseid+"-"+card_instance] == undefined ){
+          mojosto.battlefield[creature.multiverseid+"-"+card_instance] = creature.clone(creature.multiverseid+"-"+card_instance);
           creature_placed = true;
         } else {
           card_instance++;
@@ -98,8 +98,8 @@ MoJoSto = (function(){
       card_instance = 1;
       var equipment_placed = false;
       while (!equipment_placed){
-        if( mojosto.battlefield[equipment.name+"-"+card_instance] == undefined ){
-          mojosto.battlefield[equipment.name+"-"+card_instance] = equipment;
+        if( mojosto.battlefield[equipment.multiverseid+"-"+card_instance] == undefined ){
+          mojosto.battlefield[equipment.multiverseid+"-"+card_instance] = equipment.clone(equipment.multiverseid+"-"+card_instance);;
           equipment_placed = true;
         } else {
           card_instance++;
@@ -218,16 +218,14 @@ MoJoSto = (function(){
   };
 
   MoJoSto.prototype.buildBattlefield = function(){
+    $(".card").off("click");
     $("#battlefield").html("");
+
     for (var card_id in this.battlefield) {
       var card = this.battlefield[card_id];
-      $("#battlefield").append(card.htmlString());
-      $('#card-'+card.multiverseid).draggable();
+      card.attach("#battlefield");
+      
     }
-
-
-    // $(".creature").off("click", tapCard).on("click", tapCard);
-
   }
 
   MoJoSto.prototype.searchForCard = function(cardName){
