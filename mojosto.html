@@ -9,16 +9,41 @@
   <meta name="author" content="Matthew Steinwachs">
   
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+  <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
   <link rel="stylesheet" href="css/mojosto.css">
 </head>
 
 <body>
-  <div id="menu">
-    <input type="button" value="Add Creature And Equipment">
+  <h1>MoJoSto</h1>
+  <div id="loading">Loading<img src="img/spinner.gif"/></div>
+  <div id="page">
+    <div id="main_menu">
+      <div id="creature_menu" class="submenu">
+        <button id="add_creature">Add Creature And Equipment</button>
+        CMC = 
+        <select id="creature_cmc"></select>
+      </div>
+      
+      <div id="instant_menu" class="submenu">
+        <button id="get_instants">Get Three Instants</button>
+      </div>
+
+      <div id="sorcery_menu" class="submenu">
+        <button id="get_sorceries">Get Three Sorceries</button>
+      </div>
+    </div>
+
+    <div id="battlefield"></div>
+    <div id="unequiped_equipment"></div>
+    <div id="played_instants_and_sorceries"></div>
+    <div id="graveyard"></div>
+    <div id="exile"></div>
+    <div id="life"></div>
   </div>
-
-
+  
+  <script src="js/counter.js"></script>
+  <script src="js/card.js"></script>
   <script src="js/mojosto.js"></script>
 </body>
 </html>
