@@ -47,7 +47,7 @@ Card = (function(){
   };
 
   Card.prototype.registerEvents = function(){ 
-    this.$element.draggable();
+    this.$element.draggable({stack: ".card"});
   };
 
   Card.prototype.clone = function(instance_id){ 
