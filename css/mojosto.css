@@ -82,6 +82,7 @@ body {
   border: 1px solid black;
   list-style-type: none;
   padding: 0;
+  z-index: 1000000;
 }
 
 .ui-menu li.ui-menu-item:hover{
