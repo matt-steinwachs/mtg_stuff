@@ -13,8 +13,17 @@ MoJoSto = (function(){
       "Instant": []
     }
 
+    this.zones = {
+      battlefield: {},
+      unequipped: {},
+      graveyard: {},
+      exile: {},
+      hand: {},
+      library:  {}
+    };
+
     this.battlefield = {};
-    this.unequiped = {};
+    this.unequipped = {};
 
     this.mtgjson;
 
@@ -69,8 +78,15 @@ MoJoSto = (function(){
 
   MoJoSto.prototype.initPlayFieldEvents = function(){ 
     $(".zone_header").click(function(e){
-      console.log($(this).siblings());
-      $(this).siblings(".zone_content").slideToggle();
+      $(this).siblings(".zone_content").slideToggle(100);
+    });
+
+    $("#life_up").click(function(e){
+      $("#life_total").val(parseInt($("#life_total").val()) + 1);
+    });
+
+    $("#life_down").click(function(e){
+      $("#life_total").val(parseInt($("#life_total").val()) - 1);
     });
   };
 
@@ -97,10 +113,11 @@ MoJoSto = (function(){
       var card_instance = 1;
       var creature_placed = false;
       var new_element_id;
+      var zone = mojosto.zones.battlefield;
       while (!creature_placed){
         new_element_id = creature.multiverseid+"-"+card_instance;
-        if( mojosto.battlefield[new_element_id] == undefined ){
-          mojosto.battlefield[new_element_id] = creature.clone(new_element_id);
+        if( zone[new_element_id] == undefined ){
+          zone[new_element_id] = creature.clone(new_element_id);
           creature_placed = true;
         } else {
           card_instance++;
@@ -111,8 +128,8 @@ MoJoSto = (function(){
       var equipment_placed = false;
       while (!equipment_placed){
         new_element_id = equipment.multiverseid+"-"+card_instance;
-        if( mojosto.battlefield[new_element_id] == undefined ){
-          mojosto.battlefield[new_element_id] = equipment.clone(new_element_id);
+        if( zone[new_element_id] == undefined ){
+          zone[new_element_id] = equipment.clone(new_element_id);
           equipment_placed = true;
         } else {
           card_instance++;
@@ -137,64 +154,74 @@ MoJoSto = (function(){
         menu: [
           {title: "Tap/Untap", action: function(event, ui){
             var element_id = ui.target.parent().attr("id");
-            mojosto.battlefield[element_id].toggleTapped();
+            mojosto.zones.battlefield[element_id].toggleTapped();
           }},
 
-          {title: "Add Counter", action: function(event, ui){
-            var element_id = ui.target.parent().attr("id");
-          }},
+          {title: "Counter", children:[
+            {title: "Plus", action: function(event, ui){
+              var element_id = ui.target.parent().attr("id");
+            }},
 
-          {title: "Remove Counter", action: function(event, ui){
-            var element_id = ui.target.parent().attr("id");
-          }},
+            {title: "Minus", action: function(event, ui){
+              var element_id = ui.target.parent().attr("id");
+            }},
+          ]},
 
-          {title: "Unequip", action: function(event, ui){            
-            var element_id = ui.target.parent().attr("id");
-            var equipment = mojosto.battlefield[element_id];
-            equipment.unattach();
-            
-            var card_instance = 1;   
-            var equipment_placed = false;
+          {title: "Move", children:[
 
-            while (!equipment_placed){
-              new_element_id = equipment.multiverseid+"-"+card_instance;
-              if( mojosto.unequiped[new_element_id] == undefined ){
-                mojosto.unequiped[new_element_id] = equipment.clone(new_element_id);
-                equipment_placed = true;
-              } else {
-                card_instance++;
+            {title: "Unequipped", action: function(event, ui){            
+              var element_id = ui.target.parent().attr("id");
+              var equipment = mojosto.zones.battlefield[element_id];
+              equipment.unattach();
+              
+              var card_instance = 1;   
+              var equipment_placed = false;
+
+              while (!equipment_placed){
+                new_element_id = equipment.multiverseid+"-"+card_instance;
+                if( mojosto.unequipped[new_element_id] == undefined ){
+                  mojosto.unequipped[new_element_id] = equipment.clone(new_element_id);
+                  equipment_placed = true;
+                } else {
+                  card_instance++;
+                }
               }
-            }
 
-            delete mojosto.battlefield[element_id];
+              delete mojosto.zones.battlefield[element_id];
 
-            mojosto.buildBattlefield();
-            mojosto.buildUnequiped();
-          }},
+              mojosto.buildBattlefield();
+              mojosto.buildUnequipped();
+            }},
 
-          {title: "Graveyard", action: function(event, ui){            
-            var element_id = ui.target.parent().attr("id");
-          }},
+            {title: "Graveyard", action: function(event, ui){            
+              var element_id = ui.target.parent().attr("id");
+            }},
 
-          {title: "Exile", action: function(event, ui){            
-            var element_id = ui.target.parent().attr("id");
-          }},
+            {title: "Exile", action: function(event, ui){            
+              var element_id = ui.target.parent().attr("id");
+            }},
 
-          {title: "To Hand", action: function(event, ui){            
-            var element_id = ui.target.parent().attr("id");
-          }},
+            {title: "To Hand", action: function(event, ui){            
+              var element_id = ui.target.parent().attr("id");
 
-          {title: "Top of Library", action: function(event, ui){            
-            var element_id = ui.target.parent().attr("id");
-          }},
+              console.log(element_id);
+            }},
 
-          {title: "Z Level Up", action: function(event, ui){            
-            var element_id = ui.target.parent().attr("id");
-          }},
+            {title: "Top of Library", action: function(event, ui){            
+              var element_id = ui.target.parent().attr("id");
+            }},
+          ]},
 
-          {title: "Z Level Down", action: function(event, ui){            
-            var element_id = ui.target.parent().attr("id");
-          }},
+          {title: "Z Level", children:[
+            {title: "Up", action: function(event, ui){            
+              var element_id = ui.target.parent().attr("id");
+            }},
+
+            {title: "Down", action: function(event, ui){            
+              var element_id = ui.target.parent().attr("id");
+            }},
+          ]},
+          
 
         ],
         hide: 0,
@@ -302,27 +329,29 @@ MoJoSto = (function(){
 
   MoJoSto.prototype.buildBattlefield = function(){
     $(".card").off("click");
-    $("#battlefield .zone_content").html("");
+    $("#battlefield").html("");
 
-    for (var card_id in this.battlefield) {
-      var card = this.battlefield[card_id];
-      card.attach("image", "#battlefield .zone_content");
+    for (var card_id in this.zones.battlefield) {
+      var card = this.zones.battlefield[card_id];
+      card.attach("image", "#battlefield");
       
     }
 
     $("#battlefield .zone_content").show();
   }
 
-  MoJoSto.prototype.buildUnequiped = function(){
+  MoJoSto.prototype.buildUnequipped = function(){
     $(".card").off("click");
-    $("#unequiped .zone_content").html("");
+    $("#unequipped .zone_content").html("");
 
-    for (var card_id in this.unequiped) {
-      var card = this.unequiped[card_id];
-      card.attach("name", "#unequiped_equipment .zone_content");
+    console.log(this.unequipped);
+
+    for (var card_id in this.unequipped) {
+      var card = this.unequipped[card_id];
+      card.attach("name", "#unequipped_equipment .zone_content");
     }
 
-    $("#unequiped_equipment .zone_content").show();
+    $("#unequipped_equipment .zone_content").show();
   }
 
   MoJoSto.prototype.searchForCard = function(cardName){

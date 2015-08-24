@@ -31,12 +31,11 @@ body {
   margin-right: 0px ;
 }
 
-.submenu button, .submenu select{
+.submenu button, .submenu select, #life_up, #life_down {
   -webkit-appearance: none;
   height: 37px;
 
   box-sizing: border-box;
-  margin-right: 0.333em;
   padding: 0.5em 1em;
   border: 1px solid #999;
   border-radius: 2px;
@@ -59,7 +58,7 @@ body {
   outline: none;
 }
 
-.submenu button:hover, .submenu select:hover{
+.submenu button:hover, .submenu select:hover, #life_down:hover, #life_up:hover{
   background-color: #e0e0e0;
   background-image: -webkit-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
   background-image: -moz-linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
@@ -68,7 +67,7 @@ body {
   background-image: linear-gradient(top, #f9f9f9 0%, #e0e0e0 100%);
 }
 
-.submenu button:active{
+.submenu button:active, #life_down:active, #life_up:active{
   background-color: #e2e2e2;
   background-image: -webkit-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);
   background-image: -moz-linear-gradient(top, #f3f3f3 0%, #e2e2e2 100%);
@@ -78,20 +77,24 @@ body {
   box-shadow: inset 1px 1px 3px #999999;
 }
 
-.ui-contextmenu{
+.ui-menu{
   background-color: white;
   border: 1px solid black;
   list-style-type: none;
   padding: 0;
 }
 
-.ui-contextmenu li.ui-menu-item:hover{
+.ui-menu li.ui-menu-item:hover{
   background-color: whitesmoke;
 }
 
-.ui-contextmenu li.ui-menu-item{
+.ui-menu li.ui-menu-item{
   padding: 5px 10px;
   text-align: center;
+}
+
+.ui-menu .ui-menu-item .ui-menu{
+  position: absolute;
 }
 
 .card {
@@ -125,10 +128,12 @@ body {
   border: 1px solid black;
 }
 
-.other_zone {
-  display: inline-block;
-  vertical-align: top;
-  margin-right: 20px;
+
+
+#battlefield{
+  float:left;
+  width: 80%;
+
 }
 
 .zone_header {
@@ -137,4 +142,26 @@ body {
 
 .zone_content {
   display: none;
+}
+
+.other_zone{
+  background-color: white;
+  background-image: url("../img/extra_clean_paper.png");
+  border: 1px solid black;
+  padding: 5px;
+  display: block;
+  margin-bottom: 2px;
+  box-shadow: 0px 2px 20px 1px #888888;
+}
+
+#life_total{
+  width: 30px;
+  height: 32px;
+  text-align: center;
+}
+
+#other_zones{
+  float: right;
+  width: 20%;
+  text-align: center;
 }

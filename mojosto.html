@@ -36,37 +36,34 @@
       </div>
     </div>
 
-    <div id="battlefield">
-      <div class="zone_header">Battlefield</div>
-      <div class="zone_content"></div>
-    </div>
-      <div id="other_zones">
-        <div class="other_zone" id="unequiped_equipment">
-          <div class="zone_header">Unequipped Equipment</div>
-          <div class="zone_content"></div>
-        </div>
-        <div class="other_zone" id="played_instants_and_sorceries">
-          <div class="zone_header">Previously Played Instants and Sorceries</div>
-          <div class="zone_content"></div>
-        </div>     
-        <div class="other_zone" id="graveyard">
-          <div class="zone_header">Graveyard</div>
-          <div class="zone_content"></div>
-        </div>
-        <div class="other_zone" id="exile">
-          <div class="zone_header">Exile</div>
-          <div class="zone_content"></div>
-        </div>
-        <div class="other_zone" id="hand">
-          <div class="zone_header">Hand</div>
-          <div class="zone_content"></div>
-        </div>
+    <div id="battlefield"></div>
+    
+    <div id="other_zones">
+      <div id="life" class="other_zone">
+        <div class="zone_header" style="display:inline;">Life</div>
+        <button id="life_down">-</button>
+        <input type="text" id="life_total" value="19"></input>
+        <button id="life_up">+</button>
+      </div>
+      <div class="other_zone" id="graveyard">
+        <div class="zone_header">Graveyard</div>
+        <div class="zone_content"></div>
+      </div>
+      <div class="other_zone" id="exile">
+        <div class="zone_header">Exile</div>
+        <div class="zone_content"></div>
+      </div>
+      <div class="other_zone" id="hand">
+        <div class="zone_header">Hand</div>
+        <div class="zone_content"></div>
+      </div>
+      <div class="other_zone" id="library">
+        <div class="zone_header">Top of Library</div>
+        <div class="zone_content"></div>
       </div>
     </div>
     
-    <!-- <div id="life">
-      <div class="zone_header">Graveyard<div>
-    </div> -->
+    
   </div>
   
   <script src="js/counter.js"></script>
