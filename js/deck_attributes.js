@@ -459,19 +459,20 @@ $(function(){
         if ($("#dt-buttons-label").length == 0)
           $(".dt-buttons").prepend("<div id='dt-buttons-label'><p>Export: </p></div>")
       }).DataTable({
-      autoWidth: true,
-      paging: false,
-      dom: 'Bfrtip',
-      buttons: [
-        'excelHtml5',
-        'csvHtml5'
-      ],
-      fixedHeader:true,
-      colReorder:true,
-      "language": {
-        "search": "Filter:"
-      }
-    });
+        autoWidth: true,
+        paging: false,
+        dom: 'Bfrtip',
+        buttons: [
+          'excelHtml5',
+          'csvHtml5',
+          'print'
+        ],
+        fixedHeader:true,
+        colReorder:true,
+        "language": {
+          "search": "Filter:"
+        }
+      });
 
   });
 
