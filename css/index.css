@@ -1,0 +1,23 @@
+body {
+  background-image: url("../img/extra_clean_paper.png");
+  background-color: #cccccc;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  margin-bottom: 20px;
+}
+
+a {
+  text-decoration: none;
+  font-size: 25px;
+  cursor: pointer;
+  color: black;
+}
+
+a:hover {
+  font-weight: bold;
+}

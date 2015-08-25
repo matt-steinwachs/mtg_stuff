@@ -1,5 +1,3 @@
-var mtgjson = null;
-
 var MoJoSto;
 
 MoJoSto = (function(){
@@ -21,9 +19,6 @@ MoJoSto = (function(){
       hand: {},
       library:  {}
     };
-
-    this.battlefield = {};
-    this.unequipped = {};
 
     this.mtgjson;
 
@@ -137,8 +132,6 @@ MoJoSto = (function(){
       }
 
       mojosto.buildBattlefield();
-
-
     });
 
     $("#get_instants").click(function(e){
@@ -152,6 +145,7 @@ MoJoSto = (function(){
     $(document).contextmenu({
         delegate: ".cardmenu",
         taphold: true,
+        //position: {my: "left top", at: "center", of: event, collision: "fit"},
         menu: [
           {title: "Tap/Untap", action: function(event, ui){
             var element_id = ui.target.parent().attr("id");
@@ -377,7 +371,6 @@ MoJoSto = (function(){
       css: {
         width: "auto",
       }
-
     });
   }
 

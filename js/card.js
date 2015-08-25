@@ -15,7 +15,7 @@ Card = (function(){
       this.element_id = 'card-'+this.multiverseid;
 
     this.$element;
-  }
+  };
 
   Card.prototype.htmlString = function(format){ 
     var inner_elements = "";

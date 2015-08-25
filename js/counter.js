@@ -3,7 +3,7 @@ var Counter;
 Counter = (function(){
   function Counter(){
     this.val = 1;
-  }
+  };
 
   Counter.prototype.htmlString = function(){ 
     return (
