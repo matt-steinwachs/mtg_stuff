@@ -151,6 +151,7 @@ MoJoSto = (function(){
 
     $(document).contextmenu({
         delegate: ".cardmenu",
+        taphold: true,
         menu: [
           {title: "Tap/Untap", action: function(event, ui){
             var element_id = ui.target.parent().attr("id");
@@ -210,19 +211,7 @@ MoJoSto = (function(){
             {title: "Top of Library", action: function(event, ui){            
               var element_id = ui.target.parent().attr("id");
             }},
-          ]},
-
-          {title: "Z Level", children:[
-            {title: "Up", action: function(event, ui){            
-              var element_id = ui.target.parent().attr("id");
-            }},
-
-            {title: "Down", action: function(event, ui){            
-              var element_id = ui.target.parent().attr("id");
-            }},
-          ]},
-          
-
+          ]}
         ],
         hide: 0,
         show: 0,

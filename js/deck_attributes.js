@@ -66,6 +66,7 @@ $(function(){
       mtgjson = json;
       $("#loading").hide();
       $("#page").show();
+      
       if (params.length > 0){
         $("#decklist").val(params.join("\n"));
         $("#decklist_submit").click();

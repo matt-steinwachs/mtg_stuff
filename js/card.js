@@ -48,10 +48,7 @@ Card = (function(){
 
   Card.prototype.registerEvents = function(){ 
     this.$element.draggable({
-      stack: ".card",
-      // stop: function(event, ui){  
-      //   console.log($(event.target).css("z-index"));
-      // }
+      stack: ".card"
     });
   };
 
