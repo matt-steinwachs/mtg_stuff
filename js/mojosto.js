@@ -144,19 +144,21 @@ MoJoSto = (function(){
 
     $(document).contextmenu({
         delegate: ".cardmenu",
-        //taphold: true,
-        // position: function(event, ui){
-        //     return {my: "left top", at: "left top", of: ui.target};
-        // },
+
         autoTrigger: false,
 
         open: function(event, ui){
-          console.log(ui.extraData);
-          $(".ui-contextmenu").css({left: ui.extraData.left, top: ui.extraData.top })
-
+          $(".ui-contextmenu").css({left: ui.extraData.left, top: ui.extraData.top});
         },
 
         menu: [
+          {title: "Show", action: function(event, ui){
+            console.log(ui);
+            var element_id = ui.target.attr("id");
+            var multiverseid = element_id.split("-")[0];
+            mojosto.getAndShowCardArt(multiverseid);
+          }},
+
           {title: "Tap/Untap", action: function(event, ui){
             var element_id = ui.target.parent().attr("id");
             mojosto.zones.battlefield[element_id].toggleTapped();
@@ -326,11 +328,14 @@ MoJoSto = (function(){
 
     for (var card_id in this.zones.battlefield) {
       var card = this.zones.battlefield[card_id];
-      card.attach("image", "#battlefield");
+      card.attach("small_image", "#battlefield");
       
     }
 
-    $("#battlefield .zone_content").show();
+    $("#battlefield").css("height", 
+      $(window).innerHeight() - $("body").height()//- $("#main_menu").outerHeight() - $("#page_title").outerHeight()  
+    );
+
   }
 
   MoJoSto.prototype.buildUnequipped = function(){

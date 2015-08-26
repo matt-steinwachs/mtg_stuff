@@ -12,7 +12,7 @@ Card = (function(){
 
     this.element_id = (instance_id);
     if (this.element_id == undefined)
-      this.element_id = 'card-'+this.multiverseid;
+      this.element_id = this.multiverseid;
 
     this.$element;
   };
@@ -21,6 +21,8 @@ Card = (function(){
     var inner_elements = "";
 
     if (format == "image"){
+      inner_elements = '<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+this.multiverseid+'&type=card">';
+    } else if (format == "small_image"){
       inner_elements = '<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid='+this.multiverseid+'&type=card">';
     } else if (format == "name"){
       inner_elements = '<div>'+this.name+'</div>';
@@ -52,14 +54,15 @@ Card = (function(){
 
     this.$element.draggable({
       stack: ".card",
-      drag: function() {
+      drag: function(event) {
         dragged = true;
       },
+      containment: "parent"
     });
 
     this.$element.off("click").on("click", function(e){
       if (!dragged)
-        $(document).contextmenu("open", card.$element, {left: e.pageX, top: e.pageY});
+        $(document).contextmenu("open", card.$element, {left: e.pageX, top: e.pageY - 16});
       dragged = false;
     });
 
