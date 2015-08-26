@@ -160,7 +160,7 @@ MoJoSto = (function(){
           }},
 
           {title: "Tap/Untap", action: function(event, ui){
-            var element_id = ui.target.parent().attr("id");
+            var element_id = ui.target.attr("id");
             mojosto.zones.battlefield[element_id].toggleTapped();
           }},
 
