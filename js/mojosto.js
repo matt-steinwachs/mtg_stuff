@@ -144,8 +144,18 @@ MoJoSto = (function(){
 
     $(document).contextmenu({
         delegate: ".cardmenu",
-        taphold: true,
-        //position: {my: "left top", at: "center", of: event, collision: "fit"},
+        //taphold: true,
+        // position: function(event, ui){
+        //     return {my: "left top", at: "left top", of: ui.target};
+        // },
+        autoTrigger: false,
+
+        open: function(event, ui){
+          console.log(ui.extraData);
+          $(".ui-contextmenu").css({left: ui.extraData.left, top: ui.extraData.top })
+
+        },
+
         menu: [
           {title: "Tap/Untap", action: function(event, ui){
             var element_id = ui.target.parent().attr("id");
@@ -164,29 +174,29 @@ MoJoSto = (function(){
 
           {title: "Move", children:[
 
-            {title: "Unequipped", action: function(event, ui){            
-              var element_id = ui.target.parent().attr("id");
-              var equipment = mojosto.zones.battlefield[element_id];
-              equipment.unattach();
+            // {title: "Unequipped", action: function(event, ui){            
+            //   var element_id = ui.target.parent().attr("id");
+            //   var equipment = mojosto.zones.battlefield[element_id];
+            //   equipment.unattach();
               
-              var card_instance = 1;   
-              var equipment_placed = false;
+            //   var card_instance = 1;   
+            //   var equipment_placed = false;
 
-              while (!equipment_placed){
-                new_element_id = equipment.multiverseid+"-"+card_instance;
-                if( mojosto.unequipped[new_element_id] == undefined ){
-                  mojosto.unequipped[new_element_id] = equipment.clone(new_element_id);
-                  equipment_placed = true;
-                } else {
-                  card_instance++;
-                }
-              }
+            //   while (!equipment_placed){
+            //     new_element_id = equipment.multiverseid+"-"+card_instance;
+            //     if( mojosto.unequipped[new_element_id] == undefined ){
+            //       mojosto.unequipped[new_element_id] = equipment.clone(new_element_id);
+            //       equipment_placed = true;
+            //     } else {
+            //       card_instance++;
+            //     }
+            //   }
 
-              delete mojosto.zones.battlefield[element_id];
+            //   delete mojosto.zones.battlefield[element_id];
 
-              mojosto.buildBattlefield();
-              mojosto.buildUnequipped();
-            }},
+            //   mojosto.buildBattlefield();
+            //   mojosto.buildUnequipped();
+            // }},
 
             {title: "Graveyard", action: function(event, ui){            
               var element_id = ui.target.parent().attr("id");
@@ -196,13 +206,13 @@ MoJoSto = (function(){
               var element_id = ui.target.parent().attr("id");
             }},
 
-            {title: "To Hand", action: function(event, ui){            
+            {title: "Hand", action: function(event, ui){            
               var element_id = ui.target.parent().attr("id");
 
               console.log(element_id);
             }},
 
-            {title: "Top of Library", action: function(event, ui){            
+            {title: "Library", action: function(event, ui){            
               var element_id = ui.target.parent().attr("id");
             }},
           ]}

@@ -47,9 +47,22 @@ Card = (function(){
   };
 
   Card.prototype.registerEvents = function(){ 
+    var card = this;
+    var dragged = false;
+
     this.$element.draggable({
-      stack: ".card"
+      stack: ".card",
+      drag: function() {
+        dragged = true;
+      },
     });
+
+    this.$element.off("click").on("click", function(e){
+      if (!dragged)
+        $(document).contextmenu("open", card.$element, {left: e.pageX, top: e.pageY});
+      dragged = false;
+    });
+
   };
 
   Card.prototype.clone = function(instance_id){ 
