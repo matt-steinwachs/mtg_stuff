@@ -9,6 +9,10 @@ body {
   margin: 8px;
 }
 
+#loading{
+  margin-left: 8px;
+}
+
 #page_title{
   margin: 0px;
   margin-bottom: 10px;
@@ -111,7 +115,7 @@ body {
 }
 
 .card_small_image img{
-  width:100px;
+  width:150px;
 }
 
 .card_image{
