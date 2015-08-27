@@ -136,6 +136,10 @@ body {
   font-weight:bold;
 }
 
+.card_art{
+  width: 350px;
+}
+
 
 .counter{
   border-radius:50;
