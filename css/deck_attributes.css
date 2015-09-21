@@ -176,15 +176,30 @@ body {
 .add_card{
   background-image: url("../img/plus.png");
   background-repeat: no-repeat;
-  background-position: right top;
+  background-position: center center;
   background-size: contain;
-  width: 20%;
+  width: 15%;
   cursor: pointer;
   color:black;
   display: table-cell;
-  vertical-align: middle;
-  margin-right: 5px;
-  text-align: center;
+
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.remove_card{
+  background-image: url("../img/minus.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+  width: 15%;
+  cursor: pointer;
+  color:black;
+  display: table-cell;
 
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -199,7 +214,7 @@ body {
 }
 
 .show_card{
-  width: 80%;
+  width: 70%;
   cursor: pointer;
   color:black;
   display: table-cell;
@@ -221,7 +236,7 @@ body {
 }
 
 #search {
-  width: 298px;
+  width: 348px;
   border: 1px solid black;
   font-size:16px ;
   font-family: "Times New Roman", Times, serif;
@@ -231,10 +246,11 @@ body {
   border: 1px solid black;
   border-top-width: 0px;
   display: none;
+  width: 350px;
 }
 
 .field {
-  width: 300px;
+  width: 350px;
 }
 
 .select2-container--default .select2-selection--multiple {
@@ -264,4 +280,27 @@ body {
 #loaded_deck_name {
   display: inline;
 }
+
+@keyframes blink_green { 
+   50% { 
+      border-color: #00ff00; 
+      background-color: #EFFFEF;
+   } 
+}
+
+.blink_green {
+    animation: blink_green .1s step-end infinite alternate;
+}
+
+@keyframes blink_red { 
+   50% { 
+      border-color: #ff0000; 
+      background-color: #FFEFEF;
+   } 
+}
+
+.blink_red {
+    animation: blink_red .1s step-end infinite alternate;
+}
+
 
