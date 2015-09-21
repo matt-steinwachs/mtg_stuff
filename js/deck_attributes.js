@@ -34,7 +34,13 @@ $(function(){
     "Toughness": "toughness",
     "Text": "text",
     "Type": "type",
-    "Reserved": "reserved"
+    "Reserved": "reserved",
+    "Commander Legality":  "legalities",
+    "Legacy Legality": "legalities",
+    "Vintage Legality": "legalities",
+    "Standard Legality": "legalities",
+    "Modern Legality": "legalities",
+    "Rulings": "rulings"
   }
 
   var rarity_order = ["Basic Land", "Common", "Uncommon", "Rare", "Mythic Rare", "Special"];
@@ -458,19 +464,19 @@ $(function(){
             } else if (attr == "Toughness" && attr_value == undefined) {
               attr_value = "N/A";
             } else if (attr == "Lowest Rarity") {
-              var push = false;
+              push = false;
               if (attributes_to_add[attr].length == 0 || rarity_order.indexOf(attr_value) < rarity_order.indexOf(attributes_to_add[attr][0])){
                 attributes_to_add[attr][0] = attr_value;
               }
             } else if (attr == "Most Recent Set") {
-              var push = false;
+              push = false;
 
               if (attributes_to_add[attr].length == 0 || parseDate(found_card.set_releaseDate) > parseDate(attributes_to_add[attr][1])){
                 attributes_to_add[attr][0] = attr_value;
                 attributes_to_add[attr][1] = found_card.set_releaseDate;
               }
             } else if (attr == "First Set") {
-              var push = false;
+              push = false;
 
               if (attributes_to_add[attr].length == 0 || parseDate(found_card.set_releaseDate) < parseDate(attributes_to_add[attr][1])){
                 attributes_to_add[attr][0] = attr_value;
@@ -478,6 +484,23 @@ $(function(){
               }
             } else if (attr == "Quantity") {
               push = false;
+            } else if (mtgjson_attr[attr] == "legalities") {  //All Legality Columns
+              attr_value = "Illegal"
+              found_card.legalities.forEach(function(legality){
+                if (legality.format == attr.split(" ")[0]){
+                  attr_value = legality.legality
+                }
+              });
+            } else if (attr == "Rulings"){
+              if (attr_value == undefined) attr_value = "No Rulings";
+              else {
+                push = false;
+                attr_value.forEach(function(ruling){
+                  attributes_to_add[attr].push(ruling.date + " - " + ruling.text);
+                });
+
+              }
+
             }
 
             if (push) attributes_to_add[attr].push(attr_value);
@@ -491,6 +514,8 @@ $(function(){
         attributes.forEach(function(attr){
           var append_td = true;
 
+          attributes_to_add[attr] = arrayUnique(attributes_to_add[attr]);
+
           if (attr == "Colors"){
             attributes_to_add[attr].forEach(function(attr_value,i){
               attributes_to_add[attr][i] = attr_value.join(", ");
@@ -503,12 +528,19 @@ $(function(){
             append_td = false;
             if (quantities != undefined && attributes_includes_quantity){
               new_row += "<td>"+quantities[name]+"</td>";
-
             }
-          }
-           
-          attributes_to_add[attr] = arrayUnique(attributes_to_add[attr]);
+          } else if (attr == "Rulings"){
+            append_td = false;
+            new_row += "<td><ul>"
+            attributes_to_add[attr].forEach(function(attr_value){
+              new_row += "<li>"+attr_value+"</li>"
+            });
+            new_row += "</ul></td>"
 
+          }
+
+          attributes_to_add[attr] = arrayUnique(attributes_to_add[attr]);
+           
           if (append_td)
             new_row += "<td>"+attributes_to_add[attr].join(", ")+"</td>";
         }); 
