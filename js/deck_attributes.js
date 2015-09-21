@@ -33,7 +33,8 @@ $(function(){
     "Power": "power",
     "Toughness": "toughness",
     "Text": "text",
-    "Type": "type"
+    "Type": "type",
+    "Reserved": "reserved"
   }
 
   var rarity_order = ["Basic Land", "Common", "Uncommon", "Rare", "Mythic Rare", "Special"];
@@ -62,7 +63,7 @@ $(function(){
       }, []);
   };
 
-  $.getJSON("AllSets.json", function(json) {
+  $.getJSON("AllSets-x.json", function(json) {
       mtgjson = json;
       $("#loading").hide();
       $("#page").show();
@@ -94,6 +95,7 @@ $(function(){
               "<div class='search_result "+(card_index % 2 == 1 ? "odd" : "even")+"'>"+
                 "<div class='add_card'></div>"+
                 "<div class='show_card' id='"+card.editions[0].multiverse_id+"'>"+card.name+"</div>"+
+                "<div class='remove_card'></div>"+
               "</div>"
             );
 
@@ -110,8 +112,28 @@ $(function(){
 
           $(".add_card").off("click").on("click", function(e){
             var decklist = $("#decklist");
-            var cur_val = decklist.val();
-            decklist.val(cur_val + (cur_val == "" ? "" : "\n") + $(this).next().html());
+            var new_card_name = $(this).next().html();
+            decklistAdd(new_card_name, 1); 
+
+            //Bring attention to the decklist
+            decklist.addClass("blink_green");
+            decklist.scrollTop(decklist[0].scrollHeight - decklist.height());
+            setTimeout(function(){ decklist.removeClass("blink_green");}, 250);
+
+            e.preventDefault();
+          });
+
+          $(".remove_card").off("click").on("click", function(e){
+            var decklist = $("#decklist");
+            var new_card_name = $(this).prev().html();
+
+            decklistRemove(new_card_name, 1); 
+
+            //Bring attention to the decklist
+            decklist.addClass("blink_red");
+            decklist.scrollTop(decklist[0].scrollHeight - decklist.height());
+            setTimeout(function(){ decklist.removeClass("blink_red");}, 250);
+
             e.preventDefault();
           });
 
@@ -119,6 +141,74 @@ $(function(){
       }, 1000);
     }
   });
+
+  function decklistAdd(new_card_name, new_quantity){
+    var decklist = $("#decklist");
+    var card_strings = decklist.val().split("\n").clean("");
+    var card_quantities = {};
+    var new_decklist = "";
+
+    card_strings.forEach(function(card_string){
+      var card_string_split = card_string.split(" ");
+      var quantity = 1;
+      var card_name = card_string_split.slice(1).join(" ");
+      if(!isNaN(parseInt(card_string_split[0].replace("x","")))){
+        quantity = parseInt(card_string_split[0].replace("x",""));
+      }
+
+      if(card_quantities[card_name] == undefined){
+        card_quantities[card_name] = 0;        
+      }
+
+      card_quantities[card_name] += quantity;
+    });
+
+    if(card_quantities[new_card_name] == undefined){
+      card_quantities[new_card_name] = 0;        
+    }
+    card_quantities[new_card_name] += new_quantity;
+
+    for (var key in card_quantities){
+      if(card_quantities[key] > 0)
+        new_decklist += card_quantities[key]+" "+key+"\n";
+    }
+
+    decklist.val(new_decklist);
+  }
+
+  function decklistRemove(new_card_name, new_quantity){
+    var decklist = $("#decklist");
+    var card_strings = decklist.val().split("\n").clean("");
+    var card_quantities = {};
+    var new_decklist = "";
+
+    card_strings.forEach(function(card_string){
+      var card_string_split = card_string.split(" ");
+      var quantity = 1;
+      var card_name = card_string_split.slice(1).join(" ");
+      if(!isNaN(parseInt(card_string_split[0].replace("x","")))){
+        quantity = parseInt(card_string_split[0].replace("x",""));
+      }
+
+      if(card_quantities[card_name] == undefined){
+        card_quantities[card_name] = 0;        
+      }
+
+      card_quantities[card_name] += quantity;
+    });
+
+    if(card_quantities[new_card_name] == undefined){
+      card_quantities[new_card_name] = 0;        
+    }
+    card_quantities[new_card_name] -= new_quantity;
+
+    for (var key in card_quantities){
+      if(card_quantities[key] > 0)
+        new_decklist += card_quantities[key]+" "+key+"\n";
+    }
+
+    decklist.val(new_decklist);
+  }
 
   function searchForCard(cardName){
     var found_cards = [];
@@ -363,6 +453,8 @@ $(function(){
               attr_value = ["Colorless"];
             } else if (attr == "Power" && attr_value == undefined) {
               attr_value = "N/A";
+            } else if (attr == "Reserved" && attr_value == undefined) {
+              attr_value = false;
             } else if (attr == "Toughness" && attr_value == undefined) {
               attr_value = "N/A";
             } else if (attr == "Lowest Rarity") {
