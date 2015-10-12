@@ -2,12 +2,13 @@
 
 $(document).ready(function(){
   function disco_div(selector, speed){
-    var r = Math.floor((Math.random() * 30) + 1), 
-    g = Math.floor((Math.random() * 30) + 1), 
-    b = Math.floor((Math.random() * 30) + 1),
-    r2 = Math.floor((Math.random() * 30) + 1), 
-    g2 = Math.floor((Math.random() * 30) + 1), 
-    b2 = Math.floor((Math.random() * 30) + 1),
+    var r = Math.floor((Math.random() * 256) + 1), 
+    g = Math.floor((Math.random() * 256) + 1), 
+    b = Math.floor((Math.random() * 256) + 1),
+    r2 = Math.floor((Math.random() * 256) + 1), 
+    g2 = Math.floor((Math.random() * 256) + 1), 
+    b2 = Math.floor((Math.random() * 256) + 1),
+
     r_up = true, 
     g_up = true, 
     b_up = true,
@@ -76,16 +77,6 @@ $(document).ready(function(){
         else b2 -= b2_inc
       }
 
-      // $(selector).css("background-color", (
-      //   "rgb(" + 
-      //   (r % 256) + 
-      //   "," + 
-      //   (g % 256) + 
-      //   "," + 
-      //   (b % 256 ) +
-      //   ")"
-      // ));
-
       deg += deg_inc
       deg = deg % 360
 
@@ -109,17 +100,12 @@ $(document).ready(function(){
         ")"
       ));
 
-      console.log("test");
     }, speed);
     
   }
 
-  //linear-gradient(angle, color-stop1, color-stop2);
-
   disco_div("#outer-h", 33);
   disco_div("#inner-i-1", 33);
   disco_div("#inner-i-2", 33);
-  
-
 
 });
