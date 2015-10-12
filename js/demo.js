@@ -76,16 +76,6 @@ $(document).ready(function(){
         else b2 -= b2_inc
       }
 
-      // $(selector).css("background-color", (
-      //   "rgb(" + 
-      //   (r % 256) + 
-      //   "," + 
-      //   (g % 256) + 
-      //   "," + 
-      //   (b % 256 ) +
-      //   ")"
-      // ));
-
       deg += deg_inc
       deg = deg % 360
 
@@ -109,7 +99,6 @@ $(document).ready(function(){
         ")"
       ));
 
-      console.log("test");
     }, speed);
     
   }
