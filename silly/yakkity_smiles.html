@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>SMILE!</title>
+    
+    <style>
+      
+    </style>
+
+
+
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <audio src="Benny-hill-theme.mp3" controls autoplay loop style="display:none;">
+      <p>Your browser does not support the <code>audio</code> element </p>
+    </audio>
+
+    <script type="text/javascript">
+      function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      var smiles = [
+        {r:50, x: 250, y: 350}, 
+        {r:40, x: 400, y: 300},
+        {r:30, x: 600, y: 400}
+      ];
+
+      var margin = {top: 10, right: 30, bottom: 30, left: 30},
+        width = 1200 - margin.left - margin.right,
+        height = 900 - margin.top - margin.bottom;
+
+      var svg = d3.select("body").append("svg")
+          .attr("width", width + margin.left + margin.right)
+          .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+      function update(smiles){
+        var smile = svg.selectAll(".smile")
+            .data(smiles, function(d, i) { return i; })   
+
+        
+        smile.enter().append("g")
+          .attr("class", "smile")
+          
+        smile.append("circle")
+          .attr("r", function(d){return d.r})
+          .style("fill", "yellow");
+
+        smile.append("rect")
+          .attr("x", function(d){ return -d.r/2  })
+          .attr("y", function(d){ return -d.r/2 })
+          .style("z-index", 2)
+          .attr("width", function(d){ return d.r/4; })
+          .attr("height", function(d) { return d.r/2; });
+
+        smile.append("rect")
+          .attr("x", function(d){ return d.r/2 - d.r/4 })
+          .attr("y", function(d){ return -d.r/2 })
+          .style("z-index", 2)
+          .attr("width", function(d){ return d.r/4; })
+          .attr("height", function(d) { return d.r/2; });
+
+        var mouth = d3.svg.arc()
+          .innerRadius(function(d){ return d.r*0.7 })
+          .outerRadius(function(d){ return d.r*0.85 })
+          .startAngle(Math.PI/2)
+          .endAngle(3*Math.PI/2);
+
+        smile.append("path")
+          .attr("class", "mouth")
+          .attr("d", mouth);
+
+        smile.attr("class", "smile")
+          .transition()
+            .duration(50)
+            .attr("transform", function(d, i) { return "translate(" + (margin.left + d.x) + "," + d.y + ")"; });
+        
+
+        smile.exit().remove();
+      }
+
+      update(smiles);
+
+      setInterval(function(){
+        smiles.forEach(function(s){
+          s.x += getRandomInt(-30, 30);
+          s.y += getRandomInt(-30, 30);
+
+        });
+        update(smiles);
+      }, 50)
+      
+    </script>
+  </body>
+</html>
