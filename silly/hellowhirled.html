@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>HTML, JS, and CSS Example 1</title>
+
+  <style>
+    #hello{
+      border: 1px solid black;
+      display: inline-block;
+      padding: 10px;
+      font-size: 100px;
+      margin: 250px;
+    }
+  </style> 
+
+</head>
+
+<body>
+  <div id="hello">
+    Hello Whirled
+  </div>
+
+
+  <script type="text/javascript">
+    //Wrapping everything in an anonymous function to avoid poluting the global namespace
+    (function(){
+      //Declaring variables at the top to keep things organized and avoid repetition
+      var currentRotation = 0,
+          degreesPerInterval = 1,
+          animationSpeed = 1;  //in milliseconds
+
+      var whirlInterval = setInterval(function(){
+        var elementToWhirl = document.getElementById("hello");  //get the element from the DOM
+        elementToWhirl.style.transform = "rotate("+currentRotation+"deg)"; //update the element's style
+        currentRotation = (currentRotation + degreesPerInterval) % 360; //update the variable that determines rotation
+      }, animationSpeed)
+    })();
+
+  </script>
+
+</body>
+</html> 

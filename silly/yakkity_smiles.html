@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <title>SMILE!</title>
-    
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
   </head>
   <body>
@@ -35,8 +34,7 @@
       function update(smiles){
         var smile = svg.selectAll(".smile")
             .data(smiles, function(d, i) { return i; })   
-
-        
+      
         smile.enter().append("g")
           .attr("class", "smile")
           
