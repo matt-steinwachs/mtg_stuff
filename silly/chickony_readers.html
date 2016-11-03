@@ -1,0 +1,45 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Read a Book!</title>
+  <style>
+    @keyframes chicken_slider {
+        0%   {top: -357px;}
+        50%  {top: 0px;}
+        100% {top: -357px;}
+    }
+
+    #chicken{
+      width:422; 
+      height: 356px; 
+      position:absolute; 
+      top: -500px;
+      animation-name: chicken_slider;
+      animation-duration: 3s;
+      animation-iteration-count: infinite;
+    }
+
+    #chicken_container{
+      width: 500px; 
+      height:356px; 
+      position:relative; 
+      overflow:hidden;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="header">
+    <h1>Hello, welcome to the Chickony Reader Club</h1>
+    <h2>Read a book right meow OK?</h2>
+    
+    <div id="chicken_container">
+      <img id="chicken" src="chicken.jpg"></img>
+    </div>
+  </div>
+</body>
+</html>
