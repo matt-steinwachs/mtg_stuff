@@ -1,0 +1,179 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Decay Simulator</title> 
+
+  <script src="jquery-3.1.1.min.js"></script>
+
+  <style>
+    .unstable{
+      background-color: yellow;
+    }
+
+    .stable{
+      background-color: green;
+    }
+
+    .atom{
+      border-radius: 50%;
+      width:100px;
+      height:100px;
+      text-align: center;
+      display:inline-block;
+    }
+
+    #time{
+      font-size: 60px;
+    }
+
+    #trial_template{
+      display:none;
+    }
+
+    #average{
+      font-size: 60px;
+    }
+
+    .trial{
+      padding:10px;
+      border: 1px solid black;
+      margin-top:10px;
+    }
+
+    .title{
+      margin: 0px;
+    }
+
+    input {
+       width: 20em;  
+       height: 3em;
+       border: none;
+       background-color:lightgrey;
+       font-size:20px;
+       cursor:pointer;
+    }
+
+    input:hover {
+      opacity: 0.85;
+    }
+
+  </style>
+
+  <script>
+    var currentTrial = 0;
+    var results = [];
+    
+    function pad(num, size) {
+      var s = "0000" + num;
+      return s.substr(s.length - size);
+    }
+
+    function formatTime(time) {
+      var s = ms = 0;
+      var newTime = '';
+
+      s = Math.floor((time / 1000) % 60);
+      ms = Math.floor((time / 10) % 100);
+      newTime = pad(s, 2) + ':' + pad(ms, 2) ;
+      return newTime;
+    }
+
+    function nRandom(){
+      var rand = 0;
+      for (var i = 0; i < 6; i += 1) {
+        rand += Math.random();
+      }
+      return rand / 6;
+    }
+
+    function getRandomArbitrary(min, max) {
+      return Math.floor(nRandom() * (max - min) + min);
+    }
+
+    function decay(trial){  
+      var decayTimes = [];
+      for (var i=0;i<8;i++){
+        decayTimes[i] = getRandomArbitrary(7000,13000);
+      }
+
+      var startTime = (new Date()).getTime();
+      var timer = setInterval(function(){
+        var timeNow = (new Date()).getTime();
+        var timeElapsed = timeNow - startTime;
+        $("#trial"+trial+" #time").html(formatTime(timeElapsed));
+
+        var numberDecayed = 0;
+        for (var i=0;i<8;i++){
+          if (timeElapsed >= decayTimes[i]){
+            $("#trial"+trial+" #atom"+i).removeClass("unstable");
+            $("#trial"+trial+" #atom"+i).addClass("stable");
+            numberDecayed++;
+            
+            if(numberDecayed >= 4){
+              clearInterval(timer);
+              results.push(timeElapsed);
+              var avg = results.reduce(function(a, b) { return a + b; }) / results.length;
+              $("#average").html(formatTime(avg));
+              break;
+            }
+          }
+        }
+      }, 1);
+    }
+
+    function nextTrial(){
+      currentTrial++;
+      var thisTrial = currentTrial;
+      var newTrial = $("#trial_template").clone();
+      newTrial.attr("id","trial"+currentTrial);
+      newTrial.find(".title").html("Trial "+currentTrial);
+      newTrial.find("#begin").click(function(){ 
+        $(this).prop("disabled",true);
+        $(this).hide();
+        decay(thisTrial); 
+      });
+
+      $("#trials").prepend(newTrial);
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <div style="width:48%; display:inline-block;">
+    <input type="button" onclick="nextTrial();" value="Next Trial" style="display:inline-block;"></input>
+  </div>
+
+  <div style="width:48%; display:inline-block; text-align:right;"> 
+    <h1 class="title" style="display:inline-block;">Average of All Trials = <span id="average"></span></h1>
+  </div>
+
+  <div id="trials"></div>
+
+  <div id="trial_template" class="trial">
+    <h1 class="title"></h1>
+    <div>
+      <input id="begin" type="button" value="Begin"></input>
+    </div>
+    <div id="time">00:00</div>  
+    <div>
+      <div id="atom0" class="atom unstable">Atom</div>
+      <div id="atom1" class="atom unstable">Atom</div>       
+      <div id="atom2" class="atom unstable">Atom</div>    
+      <div id="atom3" class="atom unstable">Atom</div>    
+      <div id="atom4" class="atom unstable">Atom</div>    
+      <div id="atom5" class="atom unstable">Atom</div>    
+      <div id="atom6" class="atom unstable">Atom</div>    
+      <div id="atom7" class="atom unstable">Atom</div>
+    </div>
+  </div>
+
+  <script>    
+    nextTrial();
+  </script>
+</body>
+</html>
